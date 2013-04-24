@@ -1,0 +1,37 @@
+{% load custom %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block title %}UNTITLED{% endblock %} | MacaroniCode</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet" />
+	<link href="{{ STATIC_URL }}css/style.css" rel="stylesheet" />
+</head>
+<body>
+	<div class="container">
+		<div id="header" class="row page-header" role="banner">
+			<h1>
+				MacaroniCode <small class="{% block headline_extra_classes %}{% endblock %}">{% block headline %}{% endblock %}</small>
+			</h1>
+			<div class="navbar">
+				<div class="navbar-inner">
+					<div class="container">
+						<ul class="nav">
+							<li class="{% active 'home' %}"><a href="{% url 'home' %}">Home</a></li>
+							<li class="{% active 'posts' %}"><a href="{% url 'posts' %}">Blog</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="content" class="row">
+			{% block content %}
+			Oops, looks like I forgot to override this block...<br />
+			If you're not me, please <a href="http://twitter.com/uppfinnarn" target="_blank">tell me</a>!
+			{% endblock %}
+		</div>
+	</div>
+	<!--<script src="http://code.jquery.com/jquery.js"></script>
+	<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>-->
+</body>
+</html>

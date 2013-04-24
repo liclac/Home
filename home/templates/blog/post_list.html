@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load markdown_deux_tags %}
+{% block title %}Blog{% endblock %}
+{% block headline %}Blog{% endblock %}
+{% block content %}
+{% for post in post_list %}
+	<article class="list-post">
+		<header>
+			<h3>
+				<small class="timestamp">{{ post.posted_on|date:"d M Y" }}</small>
+				<a class="title" href="{% url 'post' pk=post.pk slug=post.slug %}">{{ post.title }}</a>
+			</h3>
+		</header>
+		{{ post.excerpt|markdown:"post" }}
+	</article>
+{% endfor %}
+{% endblock %}

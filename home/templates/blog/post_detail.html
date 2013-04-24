@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load markdown_deux_tags %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block headline %}{{ post.title }}{% endblock %}
+{% block headline_extra_classes %}blog-post{% endblock %}
+{% block content %}
+<article>
+	{{ post.content|markdown:"post" }}
+	<footer>
+		<span>{{ post.posted_on|date:"d M Y | H:m" }}</span>
+	</footer>
+</article>
+{% endblock %}
