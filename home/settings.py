@@ -1,7 +1,7 @@
 # Django settings for home project.
 import os, sys
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 SITE_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -32,6 +32,8 @@ MARKDOWN_DEUX_STYLES = {
 		"safe_mode": False,
 	}
 }
+
+GOOGLE_ANALYTICS_MODEL = True
 
 DATABASES = {
 	'default': {
@@ -148,6 +150,7 @@ INSTALLED_APPS = (
 	'django.contrib.admin',
 	# Uncomment the next line to enable admin documentation:
 	# 'django.contrib.admindocs',
+	'google_analytics',
 	'markdown_deux',
 	'home',
 	'blog',

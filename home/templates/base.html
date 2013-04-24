@@ -1,4 +1,4 @@
-{% load custom %}
+{% load custom googleanalytics %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,14 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet" />
 	<link href="{{ STATIC_URL }}css/style.css" rel="stylesheet" />
+	{% google_analytics %}
 </head>
 <body>
 	<div class="container">
-		<div id="header" class="row page-header" role="banner">
-			<h1>
+		<header id="header" class="row page-header" role="header">
+			<h1 role="banner">
 				MacaroniCode <small class="{% block headline_extra_classes %}{% endblock %}">{% block headline %}{% endblock %}</small>
 			</h1>
-			<div class="navbar">
+			<div class="navbar" role="navigation">
 				<div class="navbar-inner">
 					<div class="container">
 						<ul class="nav">
@@ -23,8 +24,8 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<div id="content" class="row">
+		</header>
+		<div id="content" class="row" role="main">
 			{% block content %}
 			Oops, looks like I forgot to override this block...<br />
 			If you're not me, please <a href="http://twitter.com/uppfinnarn" target="_blank">tell me</a>!

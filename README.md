@@ -6,4 +6,5 @@ Requirements
 ------------
 * django (v1.5+)
 * django-markdown-deux
+* django-google-analytics
 
