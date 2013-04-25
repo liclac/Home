@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
-from views import *
-from blog.views import *
+from blog.views import PostDetailView, PostListView
+from home.views import HomeView
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
