@@ -1,4 +1,4 @@
-{% load custom googleanalytics %}
+{% load custom googleanalytics blog_tags %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +19,7 @@
 					<div class="container">
 						<ul class="nav">
 							<li class="{% active 'home' %}"><a href="{% url 'home' %}">Home</a></li>
-							<li class="{% active 'posts' %}"><a href="{% url 'posts' %}">Blog</a></li>
+							<li class="{% active 'posts' %}"><a href="{% url 'posts' %}">Blog{% new_posts_badge %}</a></li>
 						</ul>
 					</div>
 				</div>

@@ -1,4 +1,4 @@
-.container { max-width:940px; }
+.container { max-width:900px; }
 .page-header { border-bottom:none; }
 .navbar { margin-bottom:0; }
 .navbar-inner, .nav  {
@@ -21,6 +21,13 @@
 .nav {
 	width:100%;
 	border-bottom:1px solid #ccc;
+}
+
+.new-badge {
+	padding-left:2px;
+	font-size:10px;
+	line-height:10px;
+	color:#aaa;
 }
 
 article.list-post p { padding-left:5%; }

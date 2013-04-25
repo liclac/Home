@@ -7,7 +7,20 @@
 <article>
 	{{ post.content|markdown:"post" }}
 	<footer>
-		<span>{{ post.posted_on|date:"d M Y | H:m" }}</span>
+		<span>{{ post.posted_on|date:"d M Y | H:M" }}</span>
+		
+		{% if post.edited_on %}
+			<br />
+			<small>
+				(Updated
+				{% if post.edited_on.date == post.posted_on.date %}
+					{{ post.edited_on|date:"H:M" }}
+				{% else %}
+					{{ post.edited_on|date:"d m Y" }}
+				{% endif %}
+				)
+			</small>
+		{% endif %}
 	</footer>
 </article>
 {% endblock %}

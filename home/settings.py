@@ -47,12 +47,12 @@ DATABASES = {
 	}
 }
 
-CACHES = {
-	'default': {
-		'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
-		'LOCATION': '127.0.0.1:11211',
-	}
-}
+#CACHES = {
+#	'default': {
+#		'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
+#		'LOCATION': '127.0.0.1:11211',
+#	}
+#}
 CACHE_MIDDLEWARE_KEY_PREFIX = 'home'
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
@@ -127,7 +127,7 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-	'django.middleware.cache.UpdateCacheMiddleware',
+	#'django.middleware.cache.UpdateCacheMiddleware',
 	'django.middleware.common.CommonMiddleware',
 	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.middleware.csrf.CsrfViewMiddleware',
@@ -136,7 +136,7 @@ MIDDLEWARE_CLASSES = (
 	'django.contrib.messages.middleware.MessageMiddleware',
 	# Uncomment the next line for simple clickjacking protection:
 	# 'django.middleware.clickjacking.XFrameOptionsMiddleware',
-	'django.middleware.cache.FetchFromCacheMiddleware',
+	#'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
 ROOT_URLCONF = 'home.urls'
@@ -158,6 +158,7 @@ INSTALLED_APPS = (
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
 	# Uncomment the next line to enable the admin:
+	'grappelli',
 	'django.contrib.admin',
 	# Uncomment the next line to enable admin documentation:
 	# 'django.contrib.admindocs',
@@ -185,6 +186,14 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 LOGGING = {
 	'version': 1,
 	'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s: %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s: %(message)s'
+        },
+    },
 	'filters': {
 		'require_debug_false': {
 			'()': 'django.utils.log.RequireDebugFalse'
@@ -195,7 +204,12 @@ LOGGING = {
 			'level': 'ERROR',
 			'filters': ['require_debug_false'],
 			'class': 'django.utils.log.AdminEmailHandler'
-		}
+		},
+        'console':{
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        }
 	},
 	'loggers': {
 		'django.request': {
@@ -203,5 +217,10 @@ LOGGING = {
 			'level': 'ERROR',
 			'propagate': True,
 		},
+		'console': {
+			'handlers': ['console'],
+			'level': 'DEBUG',
+			'propagate': False
+		}
 	}
 }

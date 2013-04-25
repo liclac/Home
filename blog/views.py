@@ -1,6 +1,34 @@
+import logging
+from datetime import datetime
+from django.utils import timezone
 from django.views.generic import ListView, DetailView
 from django.http import Http404
 from models import *
+
+logger = logging.getLogger('console')
+
+def set_last_blog_visit_cookie(response):
+	response.set_cookie(
+		key='last_blog_visit',
+		value=str(timezone.now()),
+		max_age=60*60*24*365*10
+	)
+
+class PostListView(ListView):
+	model = Post
+	
+	def get_queryset(self):
+		return self.model.objects.exclude(public=False)
+	
+	def get_context_data(self, **kwargs):
+    	context = super(PostListView, self).get_context_data(**kwargs)
+	    context['no_badge'] = True
+	    return context
+	
+	def dispatch(self, request, *args, **kwargs):
+		response = super(PostListView, self).dispatch(request, *args, **kwargs)
+		set_last_blog_visit_cookie(response)
+		return response
 
 class PostDetailView(DetailView):
 	model = Post
@@ -10,9 +38,8 @@ class PostDetailView(DetailView):
 		if not obj.public:
 			raise Http404
 		return obj
-
-class PostListView(ListView):
-	model = Post
 	
-	def get_queryset(self):
-		return self.model.objects.exclude(public=False)
+	def dispatch(self, request, *args, **kwargs):
+		response = super(PostDetailView, self).dispatch(request, *args, **kwargs)
+		set_last_blog_visit_cookie(response)
+		return response

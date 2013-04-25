@@ -1,5 +1,7 @@
+from datetime import datetime
 from django import template
 from django.core import urlresolvers
+from blog.models import Post
 
 register = template.Library()
 

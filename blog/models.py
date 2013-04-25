@@ -1,3 +1,4 @@
+import re
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -14,9 +15,14 @@ class Post(models.Model):
 	
 	class Meta:
 		ordering = ['-posted_on']
+		get_latest_by = 'posted_on'
 	
 	def slug(self):
-		return self.title.lower().replace(" ", "-")
+		#return self.title.lower().replace(" ", "-")
+		slug = self.title.lower()
+		slug = re.sub(r'[^a-zA-Z0-9 ]+', '', slug)
+		slug = re.sub(r'[ _]', '-', slug)
+		return slug
 	
 	def excerpt(self):
 		return self.content.replace("\r\n", "\n").split("\n\n")[0]
