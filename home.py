@@ -1,8 +1,14 @@
 import os
 from flask import Flask, render_template, abort
 from fileblog import Post
+from middleware import PathFix
 
 app = Flask(__name__)
+# I want this on /, even though mod_rewrite/mod_wsgi doesn't.
+# Remove the following line to let it mount where WSGIScriptAlias
+# says it should be.
+app.wsgi_app = PathFix(app.wsgi_app, '/')
+
 path = os.path.dirname(__file__)
 posts_path = os.path.join(path, 'posts')
 
