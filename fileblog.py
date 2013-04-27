@@ -3,7 +3,7 @@ import markdown2
 from datetime import datetime
 from operator import attrgetter
 
-markdowner = markdown2.Markdown(extras=[u'metadata'])
+markdowner = markdown2.Markdown(extras=['metadata', 'fenced-code-blocks'])
 
 class Post(object):
 	def __init__(self, path, full=True):
