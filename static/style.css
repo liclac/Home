@@ -1,5 +1,8 @@
 .container { max-width:900px; }
-.page-header { border-bottom:none; }
+.page-header {
+	border-bottom:none;
+	margin-bottom:0;
+}
 .navbar { margin-bottom:0; }
 .navbar-inner, .nav  {
 	box-shadow:none;
