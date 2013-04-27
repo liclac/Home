@@ -3,7 +3,8 @@ import sys, os
 from datetime import datetime
 
 def timestamp(path):
-	metaline = '! %s\n' % datetime.now().strftime('%d %b %Y, %H:%M')
+	ctime = datetime.fromtimestamp(os.path.getctime(path))
+	metaline = '! %s\n' % ctime.strftime('%d %b %Y, %H:%M')
 	with open(path, 'rU') as f:
 		lines = f.readlines()
 	
