@@ -83,9 +83,3 @@ article footer {
 		text-align:center;
 	}
 }
-
-@media (max-width: 480px) {
-	#header small {
-		line-height:normal;
-	}
-}

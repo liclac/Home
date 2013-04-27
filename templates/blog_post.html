@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block title %}{{ post.title }}{% endblock %}
+{% block headline %}{{ post.title }}{% endblock %}
 {% block content %}
 <article>
 	{% include "blog_post_display.html" with context %}
