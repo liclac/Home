@@ -67,7 +67,7 @@ article footer {
 		display:block;
 	}
 	
-	/* http://stackoverflow.com/questions/14601425/bootstrap-navbar-justify-span-menu-items-occupying-full-width * /
+	/* http://stackoverflow.com/questions/14601425/bootstrap-navbar-justify-span-menu-items-occupying-full-width */
 	.navbar .nav {
 		margin:0;
 		display:table;
