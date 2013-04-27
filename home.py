@@ -3,7 +3,7 @@ from functools import wraps
 from flask import Flask, render_template, request, abort
 from fileblog import Post
 from middleware import PathFix
-from werkzeug.contrib.cache import MemcachedCache
+from werkzeug.contrib.cache import SimpleCache
 
 app = Flask(__name__)
 # I want this on /, even though mod_rewrite/mod_wsgi doesn't.
@@ -11,7 +11,9 @@ app = Flask(__name__)
 # says it should be.
 app.wsgi_app = PathFix(app.wsgi_app, '/')
 
-cache = MemcachedCache(['127.0.0.1:11211'])
+# I don't need memcached for such a simple project.
+# Local memory is also far easier to nuke.
+cache = SimpleCache()
 
 path = os.path.dirname(__file__)
 posts_path = os.path.join(path, 'posts')
