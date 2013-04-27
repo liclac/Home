@@ -1,5 +1,6 @@
 import re
 import sys, os
+import shutil
 from datetime import datetime
 
 def timestamp(path):
@@ -16,21 +17,34 @@ def timestamp(path):
 	with open(path, 'w') as f:
 		f.writelines(lines)
 
+def collectstatic(dstpath):
+	srcpath = os.path.join(os.path.dirname(__file__), 'static')
+	for filename in os.listdir(srcpath):
+		shutil.copy(os.path.join(srcpath, filename), dstpath)
+
 if __name__ == '__main__':
 	handlers = {
-		'timestamp': timestamp
+		'timestamp': timestamp,
+		'collectstatic': collectstatic,
 	}
 	
-	if len(sys.argv) <= 2 or sys.argv[1] not in handlers:
-		print "Usage:"
-		print "    python %s <action> <slug>" % sys.argv[0]
-		print " "
+	if len(sys.argv) <= 1 or sys.argv[1] not in handlers:
 		print "-- Commands --"
-		print "timestamp:"
-		print "    Embeds the current timestamp into the given post, if one"
-		print "    isn't already embedded. Posts without embedded timestamps"
-		print "    will be dated using their modification timestamps, which"
-		print "    is rather fragile - any change to the file will reset it."
+		print " "
+		
+		print "timestamp <file>"
+		print "    Embeds the file's ctime into it, overwriting any existing."
+		print "    embedded timestamp. Posts without embedded timestamps will"
+		print "    be dated using their ctime on visit, which is rather"
+		print "    fragile - any change to the file will reset it."
+		print " "
+		
+		print "collectstatic <destination>"
+		print "    Collects files from the 'static' directory into the specified"
+		print "    destination path. The destination must be writable by the"
+		print "    current user."
+		print " "
+		
 		exit()
 	
-	handlers[sys.argv[1]](sys.argv[2])
+	handlers[sys.argv[1]](*sys.argv[2:])
