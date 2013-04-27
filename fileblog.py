@@ -12,20 +12,20 @@ class Post(object):
 	def __init__(self, path, full=True):
 		self.path = path
 		
-		with open(path) as f:
+		with open(self.path) as f:
 			text = f.read()
-			
-			text = self.extract_timestamp(text)
-			text = self.extract_title(text)
-			self.slug = '.'.join(os.path.basename(path).split(os.extsep)[:-1])
-			
-			self.is_full = full
-			if not full:
-				text = text.split('\n\n')[0]
-			
-			self.html = markdowner.convert(text)
-			#for key, value in self.html.metadata.iteritems():
-			#	setattr(self, key, value)
+		
+		text = self.extract_timestamp(text)
+		text = self.extract_title(text)
+		self.slug = '.'.join(os.path.basename(path).split(os.extsep)[:-1])
+		
+		self.is_full = full
+		if not full:
+			text = text.split('\n\n')[0]
+		
+		self.html = markdowner.convert(text)
+		#for key, value in self.html.metadata.iteritems():
+		#	setattr(self, key, value)
 	
 	def extract_timestamp(self, text):
 		match = timestamp_exp.match(text)
@@ -34,6 +34,7 @@ class Post(object):
 			self.created = datetime.strptime(match.group(1), '%d %b %Y, %H:%M')
 		else:
 			self.created = datetime.fromtimestamp(os.path.getctime(self.path))
+			self.write_timestamp()
 		return text
 	
 	def extract_title(self, text):
@@ -44,6 +45,20 @@ class Post(object):
 		else:
 			self.title = 'Untitled'
 		return text
+	
+	def write_timestamp(self):
+		metaline = '! %s\n' % self.created.strftime('%d %b %Y, %H:%M')
+		
+		with open(self.path, 'rU') as in_:
+			lines = in_.readlines()
+			
+			if lines[0].startswith('! '):
+				lines[0] = metaline
+			else:
+				lines.insert(0, metaline)
+		
+		with open(self.path, 'w') as out:
+			out.writelines(lines)
 	
 	@classmethod
 	def list(cls, path):
