@@ -1,8 +1,24 @@
 .container { max-width:930px; }
+
 .page-header {
 	border-bottom:none;
 	margin-bottom:10px;
 }
+
+.feed-link {
+	color:#ccc;
+}
+.feed-link:hover {
+	color:#333;
+	text-decoration:none;
+}
+.feed-link i {
+	height:44px;
+	line-height:44px;
+	width:44px;
+	text-align:center;
+}
+
 .navbar { margin-bottom:0; }
 .navbar-inner, .nav  {
 	box-shadow:none;

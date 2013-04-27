@@ -1,22 +1,26 @@
 {% macro nav_li(endpoint, name) %}
 	{%- if url_for(endpoint) == request.script_root + request.path -%}
-		<li class="active"><a href="{{ url_for(endpoint) }}">{{ name }}</a></li>
+		<li class="active"><a href="{{ url_for(endpoint) }}">{{ name|safe }}</a></li>
 	{%- else -%}
-		<li><a href="{{ url_for(endpoint) }}">{{ name }}</a></li>
+		<li><a href="{{ url_for(endpoint) }}">{{ name|safe }}</a></li>
 	{%- endif -%}
 {% endmacro %}<!DOCTYPE html>
 <html>
 <head>
 	<title>{% block title %}UNTITLED{% endblock %} | MacaroniCode</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet" />
+	<!--<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet" />-->
+	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet" />
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet" />
 	<link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" />
+	<link href="{{ url_for('blog_feed') }}" rel="alternate" title="Recent Changes" type="application/atom+xml" />
 </head>
 <body>
 	<div class="container">
 		<header id="header" class="page-header" role="header">
+			<a href="{{ url_for('blog_feed') }}" class="feed-link pull-right"><i class="icon-rss icon-2x"></i></a>
 			<h1 role="banner">
-				MacaroniCode <small>{% block headline %}{% endblock %}</small>
+				MacaroniCode{# <small>{% block headline %}&nbsp;{% endblock %}</small>#}
 			</h1>
 			<div class="navbar" role="navigation">
 				<div class="navbar-inner">

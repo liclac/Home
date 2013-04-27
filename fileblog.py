@@ -29,11 +29,15 @@ class Post(object):
 	
 	def extract_timestamp(self, text):
 		match = timestamp_exp.match(text)
+		ctime = datetime.fromtimestamp(os.path.getctime(self.path))
+		
+		self.modified = ctime
+		
 		if match:
 			text = text[match.end():]
 			self.created = datetime.strptime(match.group(1), '%d %b %Y, %H:%M')
 		else:
-			self.created = datetime.fromtimestamp(os.path.getctime(self.path))
+			self.created = ctime
 			self.write_timestamp()
 		return text
 	
