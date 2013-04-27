@@ -19,7 +19,7 @@ posts_path = os.path.join(path, 'posts')
 
 
 # Decorators
-def cached(timeout=60*60, key='view/%s'):
+def cached(timeout=10*60, key='view/%s'):
 	def decorator(f):
 		@wraps(f)
 		def decorated_function(*args, **kwargs):
