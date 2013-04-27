@@ -11,13 +11,13 @@ title_exp = re.compile(r'([^\r\n]+)\r?\n[=-]+(\r?\n)*')
 class Post(object):
 	def __init__(self, path, full=True):
 		self.path = path
+		self.slug = '.'.join(os.path.basename(path).split(os.extsep)[:-1])
 		
 		with open(self.path) as f:
 			text = f.read()
 		
 		text = self.extract_timestamp(text)
 		text = self.extract_title(text)
-		self.slug = '.'.join(os.path.basename(path).split(os.extsep)[:-1])
 		
 		self.is_full = full
 		if not full:
