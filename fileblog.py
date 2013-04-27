@@ -22,9 +22,9 @@ class Post(object):
 		
 		with open(path) as f:
 			text = f.read()
+			title, text = extract_title(text)
 			if not full:
 				text = text.split('\n\n')[0]
-			title, text = extract_title(text)
 			
 			self.html = markdowner.convert(text)
 			self.slug = '.'.join(os.path.basename(path).split(os.extsep)[:-1])
