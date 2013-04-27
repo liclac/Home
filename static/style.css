@@ -1,7 +1,7 @@
-.container { max-width:900px; }
+.container { max-width:930px; }
 .page-header {
 	border-bottom:none;
-	margin-bottom:0;
+	margin-bottom:10px;
 }
 .navbar { margin-bottom:0; }
 .navbar-inner, .nav  {
@@ -26,14 +26,14 @@
 	border-bottom:1px solid #ccc;
 }
 
-.new-badge {
+/*.new-badge {
 	padding-left:2px;
 	font-size:10px;
 	line-height:10px;
 	color:#aaa;
-}
+}*/
 
-article.list-post p { padding-left:5%; }
+article p { padding-left:5%; }
 article .timestamp { white-space:nowrap; }
 article footer {
 	border-top:1px solid #ccc;

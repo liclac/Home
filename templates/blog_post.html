@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 {% block title %}{{ post.title }}{% endblock %}
-{% block headline %}{{ post.title }}{% endblock %}
 {% block content %}
 <article>
-	{{ post.html|safe }}
+	{% include "blog_post_display.html" with context %}
 	<footer>
 		<span>{{ post.created.strftime("%d %b %Y | %H:%M") }}</span>
 	</footer>

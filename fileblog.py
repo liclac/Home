@@ -19,6 +19,7 @@ class Post(object):
 			text = self.extract_title(text)
 			self.slug = '.'.join(os.path.basename(path).split(os.extsep)[:-1])
 			
+			self.is_full = full
 			if not full:
 				text = text.split('\n\n')[0]
 			
