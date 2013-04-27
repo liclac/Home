@@ -14,6 +14,7 @@ app.wsgi_app = PathFix(app.wsgi_app, '/')
 # I don't need memcached for such a simple project.
 # Local memory is also far easier to nuke.
 cache = SimpleCache()
+cache_timeout = 0#10*60
 
 path = os.path.dirname(__file__)
 posts_path = os.path.join(path, 'posts')
@@ -21,7 +22,7 @@ posts_path = os.path.join(path, 'posts')
 
 
 # Decorators
-def cached(timeout=10*60, key='view/%s'):
+def cached(timeout=cache_timeout, key='view/%s'):
 	def decorator(f):
 		@wraps(f)
 		def decorated_function(*args, **kwargs):
@@ -37,16 +38,6 @@ def cached(timeout=10*60, key='view/%s'):
 
 
 
-# Templates
-@app.context_processor
-def blog_processor():
-	return {
-		'get_posts': lambda: Post.list(posts_path),
-		'get_post': lambda slug: Post.slug(posts_path, slug),
-	}
-
-
-
 # Routes
 @app.route('/')
 @cached()
@@ -56,7 +47,7 @@ def home():
 @app.route('/blog/')
 @cached()
 def blog():
-	return render_template('blog.html')
+	return render_template('blog.html', posts=Post.list(posts_path))
 
 @app.route('/blog/<slug>/')
 @cached()
