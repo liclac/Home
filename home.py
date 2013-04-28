@@ -16,45 +16,49 @@ app.wsgi_app = PathFix(app.wsgi_app, '/')
 # I don't need memcached for such a simple project.
 # Local memory is also far easier to nuke.
 cache = SimpleCache()
-cache_timeout = 60*60
+
+
 
 path = os.path.dirname(__file__)
 posts_path = os.path.join(path, 'posts')
 
-
-
-def cached(timeout=cache_timeout, key='view/%s'):
-	def decorator(f):
-		@wraps(f)
-		def decorated_function(*args, **kwargs):
-			cache_key = key % request.path
-			rv = cache.get(cache_key)
-			if rv is not None:
-				return rv
-			rv = f(*args, **kwargs)
-			cache.set(cache_key, rv, timeout=timeout)
-			return rv
-		return decorated_function
-	return decorator
+CACHE_TIMEOUT = 60*60
 
 def make_external(url):
 	return urljoin(request.url_root, url)
 
 
 
-# Routes
+# http://flask.pocoo.org/snippets/9/
+@app.before_request
+def return_cached():
+	# Don't cache things with GET or POST values
+	if not request.values:
+		response = cache.get(request.path)
+		if response:
+			return response
+
+@app.after_request
+def cache_response(response):
+	if not request.values:
+		try:
+			cache.set(request.path, response, CACHE_TIMEOUT)
+		except:
+			# If we're dealing with an uncacheable type...
+			pass
+	return response
+
+
+
 @app.route('/')
-@cached()
 def home():
 	return render_template('home.html')
 
 @app.route('/blog/')
-@cached()
 def blog():
 	return render_template('blog.html', posts=Post.list(posts_path))
 
 @app.route('/blog/<slug>/')
-@cached()
 def blog_post(slug):
 	try:
 		post = Post.slug(posts_path, slug)
@@ -64,7 +68,6 @@ def blog_post(slug):
 
 # http://flask.pocoo.org/snippets/10/
 @app.route('/blog/feed.atom')
-@cached()
 def blog_feed():
 	feed = AtomFeed('MacaroniCode',
 			feed_url=request.url, url=request.url_root)
