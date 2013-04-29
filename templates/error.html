@@ -1,0 +1,25 @@
+<html>
+<head>
+	<title>MacaroniCode</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet" />
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet" />
+	{% block css %}<link href="{{ url_for('static', filename='error.css') }}" rel="stylesheet" />{% endblock %}
+</head>
+<body>
+	<div class="container">
+		<p class="errcode">{{ errcode }}</p>
+		<p class="errname">{{ errname }}</p>
+		<p>{{ errmsg }}</p>
+		<!--<p class="links">
+			<a href="{{ url_for('home') }}">Home</a><span class="divider"></span><a href="{{ url_for('blog') }}">Blog</a>
+		</p>-->
+		<hr />
+		<ul id="links" class="inline">
+			<li><a href="{{ url_for('home') }}">Home</a></li>
+			<li><a href="{{ url_for('blog') }}">Blog</a></li>
+		</ul>
+	</div>
+	{% include "google_analytics.html" %}
+</body>
+</html>
