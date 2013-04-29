@@ -80,7 +80,9 @@ article footer {
 	article .title {
 		display:block;
 	}
-	
+}
+
+@media (max-width: 480px) {
 	/* http://stackoverflow.com/questions/14601425/bootstrap-navbar-justify-span-menu-items-occupying-full-width */
 	.navbar .nav {
 		margin:0;
