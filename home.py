@@ -2,10 +2,10 @@ import os
 from urlparse import urljoin
 from functools import wraps
 from flask import Flask, render_template, request, abort, url_for
-from fileblog import Post
-from middleware import PathFix
 from werkzeug.contrib.cache import SimpleCache
 from werkzeug.contrib.atom import AtomFeed
+from fileblog import Post
+from middleware import PathFix
 
 app = Flask(__name__)
 # I want this on /, even though mod_rewrite/mod_wsgi doesn't.
