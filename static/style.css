@@ -50,6 +50,7 @@
 }*/
 
 article .timestamp { white-space:nowrap; }
+article img { display:block; }
 article footer {
 	border-top:1px solid #ccc;
 	margin-top:30px;
