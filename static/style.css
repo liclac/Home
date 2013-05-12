@@ -7,6 +7,7 @@ body {
 article h2 {
 	font-size:32px;
 	line-height:48px;
+	border-bottom:1px solid #ccc;
 }
 
 article p {
@@ -75,7 +76,7 @@ article footer {
 }
 
 @media (min-width: 768px) {
-	article p { padding-left:5%; }
+	article p, article ul { padding-left:5%; }
 	article .title { white-space:nowrap; }
 }
 
