@@ -22,7 +22,7 @@ cache = SimpleCache()
 path = os.path.dirname(__file__)
 posts_path = os.path.join(path, 'posts')
 
-CACHE_TIMEOUT = 0#60*60
+CACHE_TIMEOUT = 60*60
 
 def make_external(url):
 	return urljoin(request.url_root, url)
