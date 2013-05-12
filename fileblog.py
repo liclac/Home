@@ -67,7 +67,7 @@ class Post(object):
 	@classmethod
 	def list(cls, path):
 		posts = [ cls(os.path.join(path, filename), False) for filename in os.listdir(path)
-					if filename.endswith('.md') and not filename.startswith('_') ]
+					if filename.endswith('.md') and not filename.startswith('_') and not filename.startswith('.') ]
 		posts.sort(key=attrgetter('created'), reverse=True) # sort() is slightly more efficient than sorted()
 		return posts
 	
