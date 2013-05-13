@@ -29,10 +29,6 @@ article p {
 	margin-bottom:20px;
 }
 
-article.project h3 {
-	display:inline;
-}
-
 
 
 /*
@@ -147,4 +143,34 @@ article footer {
 	.navbar .nav li a {
 		text-align:center;
 	}
+}
+
+
+
+/*
+ * Projects
+ */
+.project h3, .project h5 { display:inline-block; margin:0; }
+
+.project-badges {
+	display:inline-block;
+}
+.project-badge {
+	padding-left:10px; color:#ccc;
+	font-size:33px;
+	transition:color 0.2s;
+	-webkit-transition:color 0.2s;
+}
+/* Remember, floats flip the order! */
+.project-badge:last-child {
+	padding-left:0;
+}
+.project-badge:hover {
+	text-decoration:none;
+	color:#000;
+}
+
+@media (max-width: 767px) {
+	.project header { margin-bottom:10px; }
+	.project-badge { font-size:32px; }
 }

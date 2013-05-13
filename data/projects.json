@@ -1,0 +1,17 @@
+[
+	{
+		"name": "MeidoBot",
+		"description": "A natural language assistant, a little bot you can order around to help you out.",
+		"language": "Python",
+		"platform": "Cross-Platform",
+		"github": "uppfinnarn/MeidoBot"
+	},
+	{
+		"name": "Tweetool",
+		"description": "Gives users the features Twitter should already have.",
+		"language": "Python",
+		"platform": "Web",
+		"github": "uppfinnarn/Tweetool",
+		"web": "http://macaronicode.se/Tweetool/"
+	}
+]

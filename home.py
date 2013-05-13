@@ -1,4 +1,5 @@
 import os
+import json
 from urlparse import urljoin
 from functools import wraps
 from flask import Flask, render_template, request, abort, url_for
@@ -15,6 +16,7 @@ app.wsgi_app = PathFix(app.wsgi_app, '/')
 path = os.path.abspath(os.path.dirname(__file__))
 posts_path = os.path.join(path, 'posts')
 pages_path = os.path.join(path, 'pages')
+data_path = os.path.join(path, 'data')
 cache_path = os.path.join(path, 'cache')
 
 make_external = lambda url: urljoin(request.url_root, url)
@@ -56,6 +58,12 @@ def blog_post(slug):
 	except:
 		abort(404)
 	return render_template('blog_post.html', post=post)
+
+@app.route('/projects/')
+def projects():
+	with open(os.path.join(data_path, 'projects.json')) as f:
+		projects = json.load(f)
+	return render_template('projects.html', projects=projects)
 
 # http://flask.pocoo.org/snippets/10/
 @app.route('/blog/feed.atom')

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Projects{% endblock %}
+{% block content %}
+	{% for project in projects %}
+	<article class="project">
+		<header class="clearfix">
+			<h3>
+				{{ project.name }}
+			</h3>
+			
+			<div class="project-badges pull-right">
+				{% if project.github %}
+				<a href="http://github.com/{{ project.github }}"
+					title="GitHub" target="_blank"
+					class="project-badge">
+					<i class="icon-github"></i>
+				</a>
+				{% endif %}
+				{% if project.web %}
+				<a href="{{ project.web }}"
+					title="Visit" target="_blank"
+					class="project-badge">
+					<i class="icon-globe"></i>
+				</a>
+				{% endif %}
+			</div>
+			
+			<h5 class="muted">{{ project.language }}, {{ project.platform }}</h5>
+		</header>
+		{{ project.description }}
+	</article>
+	<hr />
+	{% endfor %}
+{% endblock %}

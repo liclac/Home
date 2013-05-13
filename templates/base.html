@@ -27,6 +27,7 @@
 				<div class="navbar-inner">
 					<ul class="nav">
 						{{ nav_li(url_for('home'), 'Home') }}
+						{{ nav_li(url_for('projects'), 'Projects') }}
 						{% for page in pages %}
 							{{ nav_li(url_for('page', path=page.slug), page.title) }}
 						{% endfor %}
