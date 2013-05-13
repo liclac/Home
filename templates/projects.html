@@ -4,10 +4,6 @@
 	{% for project in projects %}
 	<article class="project">
 		<header class="clearfix">
-			<h3>
-				{{ project.name }}
-			</h3>
-			
 			<div class="project-badges pull-right">
 				{% if project.github %}
 				<a href="http://github.com/{{ project.github }}"
@@ -24,6 +20,10 @@
 				</a>
 				{% endif %}
 			</div>
+			
+			<h3>
+				{{ project.name }}
+			</h3>
 			
 			<h5 class="muted">{{ project.language }}, {{ project.platform }}</h5>
 		</header>

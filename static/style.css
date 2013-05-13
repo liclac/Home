@@ -171,6 +171,7 @@ article footer {
 }
 
 @media (max-width: 767px) {
+	.project h3, .project h5 { display:block; }
 	.project header { margin-bottom:10px; }
 	.project-badge { font-size:32px; }
 }
