@@ -5,11 +5,6 @@ import jsonpickle
 from datetime import datetime
 from operator import attrgetter
 
-try:
-	import cPickle as pickle
-except:
-	import pickle
-
 markdowner = markdown2.Markdown(extras=['metadata', 'fenced-code-blocks'])
 timestamp_exp = re.compile(r'\! ([^\r\n]+)\r?\n')
 title_exp = re.compile(r'([^\r\n]+)\r?\n[=-]+(\r?\n)*')
@@ -17,12 +12,12 @@ title_exp = re.compile(r'([^\r\n]+)\r?\n[=-]+(\r?\n)*')
 class Post(object):
 	def __init__(self, posts_path, cache_path, slug, full=True):
 		self.slug = slug
-		self.path = os.path.join(posts_path, self.slug + '.md')
+		path = os.path.join(posts_path, self.slug + '.md')
 		
-		with open(self.path) as f:
+		with open(path) as f:
 			text = f.read()
 		
-		text = self.extract_timestamp(text)
+		text = self.extract_timestamp(text, path)
 		text = self.extract_title(text)
 		
 		self.is_full = full
@@ -36,16 +31,16 @@ class Post(object):
 			setattr(self, key, value)
 		self.html = unicode(attributed_html)
 	
-	def extract_timestamp(self, text):
+	def extract_timestamp(self, text, path):
 		match = timestamp_exp.match(text)
-		ctime = datetime.fromtimestamp(os.path.getctime(self.path))
+		ctime = datetime.fromtimestamp(os.path.getctime(path))
 		
 		if match:
 			text = text[match.end():]
 			self.created = datetime.strptime(match.group(1), '%d %b %Y, %H:%M')
 		else:
 			self.created = ctime
-			self.write_timestamp()
+			self.write_timestamp(path)
 		return text
 	
 	def extract_title(self, text):
@@ -57,10 +52,10 @@ class Post(object):
 			self.title = 'Untitled'
 		return text
 	
-	def write_timestamp(self):
+	def write_timestamp(self, path):
 		metaline = '! %s\n' % self.created.strftime('%d %b %Y, %H:%M')
 		
-		with open(self.path, 'rU') as in_:
+		with open(path, 'rU') as in_:
 			lines = in_.readlines()
 			
 			if lines[0].startswith('! '):
@@ -68,7 +63,7 @@ class Post(object):
 			else:
 				lines.insert(0, metaline)
 		
-		with open(self.path, 'w') as out:
+		with open(path, 'w') as out:
 			out.writelines(lines)
 	
 	@classmethod
