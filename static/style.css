@@ -1,3 +1,6 @@
+/*
+ * Typography
+ */
 body {
 	font-family: Georgia, "Helvetica Neue", Helvetica, sans-serif;
 	font-size:16px;
@@ -26,6 +29,15 @@ article p {
 	margin-bottom:20px;
 }
 
+article.project h3 {
+	display:inline;
+}
+
+
+
+/*
+ * Layout
+ */
 .container { max-width:600px; }
 
 .page-header {
@@ -77,10 +89,18 @@ article p {
 	color:#aaa;
 }*/
 
+
+
+/*
+ * Blog
+ */
+
+article { margin-bottom:30px; }
 article .timestamp { white-space:nowrap; }
 article img { display:block; }
 article footer {
 	border-top:1px solid #ccc;
+	border-bottom:1px solid #ccc;
 	margin-top:30px;
 	padding:5px 0;
 	text-align:right;
