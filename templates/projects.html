@@ -5,18 +5,18 @@
 	<article class="project">
 		<header class="clearfix">
 			<div class="project-badges pull-right">
-				{% if project.github %}
-				<a href="http://github.com/{{ project.github }}"
-					title="GitHub" target="_blank"
-					class="project-badge">
-					<i class="icon-github"></i>
-				</a>
-				{% endif %}
 				{% if project.web %}
 				<a href="{{ project.web }}"
 					title="Visit" target="_blank"
 					class="project-badge">
 					<i class="icon-globe"></i>
+				</a>
+				{% endif %}
+				{% if project.github %}
+				<a href="http://github.com/{{ project.github }}"
+					title="GitHub" target="_blank"
+					class="project-badge">
+					<i class="icon-github"></i>
 				</a>
 				{% endif %}
 			</div>
