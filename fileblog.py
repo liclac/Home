@@ -76,7 +76,6 @@ class Post(object):
 	@classmethod
 	def with_slug(cls, posts_dir, cache_dir, slug, full=True):
 		cachepath = os.path.join(cache_dir, slug + '.json')
-		make_path_to(cachepath)
 		if not slug.startswith('_') and not slug.startswith('.'):
 			try:
 				with open(cachepath) as f:
@@ -85,6 +84,7 @@ class Post(object):
 			except:
 				pass
 		post = cls(posts_dir, slug, full)
+		make_path_to(cachepath)
 		with open(cachepath, 'w') as f:
 			f.write(jsonpickle.encode(post))
 		return post
@@ -92,7 +92,6 @@ class Post(object):
 	@classmethod
 	def list(cls, posts_dir, cache_dir):
 		cachepath = os.path.join(cache_dir, cls._cache_filename)
-		make_path_to(cachepath)
 		try:
 			with open(cachepath) as f:
 				posts = jsonpickle.decode(f.read())
@@ -106,6 +105,7 @@ class Post(object):
 			# Note: sort() is slightly more efficient than sorted()
 			posts.sort(key=attrgetter('created'), reverse=True)
 			
+			make_path_to(cachepath)
 			with open(cachepath, 'w') as f:
 				f.write(jsonpickle.encode(posts))
 		return posts
