@@ -27,6 +27,20 @@ def inject_pages():
 		'pages': Page.list(pages_path, cache_path)
 	}
 
+
+
+@app.errorhandler(404)
+def error404(error):
+	return render_template('error.html', errcode=404, errname="Not Found",
+							errmsg="These are not the pages you are looking for.")
+
+@app.errorhandler(500)
+def error500(error):
+	return render_template('error.html', errcode=500, errname="Server Error",
+							errmsg="Whoops, looks like something made the server blow up...")
+
+
+
 @app.route('/')
 def home():
 	return render_template('home.html')
@@ -68,18 +82,6 @@ def page(path):
 		print e
 		abort(404)
 	return render_template('page.html', page=page)
-
-
-
-@app.errorhandler(404)
-def error404(error):
-	return render_template('error.html', errcode=404, errname="Not Found",
-							errmsg="These are not the pages you are looking for.")
-
-@app.errorhandler(500)
-def error500(error):
-	return render_template('error.html', errcode=500, errname="Server Error",
-							errmsg="Whoops, looks like something made the server blow up...")
 
 
 
