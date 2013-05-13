@@ -28,7 +28,6 @@
 					<ul class="nav">
 						{{ nav_li(url_for('home'), 'Home') }}
 						{% for page in pages %}
-							{#<li><a href="{{ url_for('page', path=page.slug) }}">{{ page.title }}</a></li>#}
 							{{ nav_li(url_for('page', path=page.slug), page.title) }}
 						{% endfor %}
 						{{ nav_li(url_for('blog'), 'Blog') }}
