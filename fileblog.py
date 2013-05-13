@@ -10,7 +10,7 @@ timestamp_exp = re.compile(r'\! ([^\r\n]+)\r?\n')
 title_exp = re.compile(r'([^\r\n]+)\r?\n[=-]+(\r?\n)*')
 
 class Post(object):
-	def __init__(self, posts_path, cache_path, slug, full=True):
+	def __init__(self, posts_path, slug, full=True):
 		self.slug = slug
 		path = os.path.join(posts_path, self.slug + '.md')
 		
@@ -76,7 +76,7 @@ class Post(object):
 					return post
 			except:
 				pass
-		post = cls(posts_dir, cache_dir, slug, full)
+		post = cls(posts_dir, slug, full)
 		with open(cachepath, 'w') as f:
 			f.write(jsonpickle.encode(post))
 		return post
@@ -88,7 +88,7 @@ class Post(object):
 			with open(cachepath) as f:
 				posts = jsonpickle.decode(f.read())
 		except:
-			posts = [ cls(posts_dir, cache_dir, '.'.join(filename.split(os.extsep)[:-1]), False) \
+			posts = [ cls(posts_dir, '.'.join(filename.split(os.extsep)[:-1]), False) \
 						for filename in os.listdir(posts_dir) \
 						if filename.endswith('.md') \
 						and not filename.startswith('_') \
