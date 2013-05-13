@@ -9,6 +9,7 @@ Requirements
 * Python 2.7
 	* flask
 	* markdown2
+	* jsonpickle
 
 cmd.py
 ------

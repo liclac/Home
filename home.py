@@ -21,8 +21,9 @@ cache = SimpleCache()
 
 path = os.path.dirname(__file__)
 posts_path = os.path.join(path, 'posts')
+cache_path = os.path.join(path, 'cache')
 
-CACHE_TIMEOUT = 60*60
+CACHE_TIMEOUT = 0#60*60
 
 def make_external(url):
 	return urljoin(request.url_root, url)
@@ -56,12 +57,13 @@ def home():
 
 @app.route('/blog/')
 def blog():
-	return render_template('blog.html', posts=Post.list(posts_path))
+	return render_template('blog.html', posts=Post.list(posts_path, cache_path))
 
 @app.route('/blog/<slug>/')
 def blog_post(slug):
 	try:
-		post = Post.slug(posts_path, slug)
+		#post = Post.slug(posts_path, cache_path, slug)
+		post = Post(posts_path, cache_path, slug)
 	except:
 		abort(404)
 	return render_template('blog_post.html', slug=slug, post=post)

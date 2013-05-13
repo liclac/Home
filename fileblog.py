@@ -1,17 +1,23 @@
 import os
 import re
 import markdown2
+import jsonpickle
 from datetime import datetime
 from operator import attrgetter
+
+try:
+	import cPickle as pickle
+except:
+	import pickle
 
 markdowner = markdown2.Markdown(extras=['metadata', 'fenced-code-blocks'])
 timestamp_exp = re.compile(r'\! ([^\r\n]+)\r?\n')
 title_exp = re.compile(r'([^\r\n]+)\r?\n[=-]+(\r?\n)*')
 
 class Post(object):
-	def __init__(self, path, full=True):
-		self.path = path
-		self.slug = '.'.join(os.path.basename(path).split(os.extsep)[:-1])
+	def __init__(self, posts_path, cache_path, slug, full=True):
+		self.slug = slug
+		self.path = os.path.join(posts_path, self.slug + '.md')
 		
 		with open(self.path) as f:
 			text = f.read()
@@ -23,15 +29,16 @@ class Post(object):
 		if not full:
 			text = text.split('\n\n')[0]
 		
-		self.html = markdowner.convert(text)
-		#for key, value in self.html.metadata.iteritems():
-		#	setattr(self, key, value)
+		# Extract the metadata, then 'demote' the text to an unicode
+		# object. Without the demotion, it won't serialize properly.
+		attributed_html = markdowner.convert(text)
+		for key, value in attributed_html.metadata.iteritems():
+			setattr(self, key, value)
+		self.html = unicode(attributed_html)
 	
 	def extract_timestamp(self, text):
 		match = timestamp_exp.match(text)
 		ctime = datetime.fromtimestamp(os.path.getctime(self.path))
-		
-		self.modified = ctime
 		
 		if match:
 			text = text[match.end():]
@@ -65,12 +72,21 @@ class Post(object):
 			out.writelines(lines)
 	
 	@classmethod
-	def list(cls, path):
-		posts = [ cls(os.path.join(path, filename), False) for filename in os.listdir(path)
-					if filename.endswith('.md') and not filename.startswith('_') and not filename.startswith('.') ]
-		posts.sort(key=attrgetter('created'), reverse=True) # sort() is slightly more efficient than sorted()
+	def list(cls, posts_dir, cache_dir):
+		cachepath = os.path.join(cache_dir, 'posts.json')
+		try:
+			with open(cachepath) as f:
+				posts = jsonpickle.decode(f.read())
+		except:
+			posts = [ cls(posts_dir, cache_dir, '.'.join(filename.split(os.extsep)[:-1]), False) \
+						for filename in os.listdir(posts_dir) \
+						if filename.endswith('.md') \
+						and not filename.startswith('_') \
+						and not filename.startswith('.') ]
+			
+			# Note: sort() is slightly more efficient than sorted()
+			posts.sort(key=attrgetter('created'), reverse=True)
+			
+			with open(cachepath, 'w') as f:
+				f.write(jsonpickle.encode(posts))
 		return posts
-	
-	@classmethod
-	def slug(cls, path, slug):
-		return cls(os.path.join(path, slug + '.md'))
