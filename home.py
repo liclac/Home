@@ -19,7 +19,7 @@ cache = SimpleCache()
 
 
 
-path = os.path.dirname(__file__)
+path = os.path.abspath(os.path.dirname(__file__))
 posts_path = os.path.join(path, 'posts')
 cache_path = os.path.join(path, 'cache')
 
