@@ -9,7 +9,7 @@ markdowner = markdown2.Markdown(extras=['metadata', 'fenced-code-blocks'])
 timestamp_exp = re.compile(r'\! ([^\r\n]+)\r?\n')
 title_exp = re.compile(r'([^\r\n]+)\r?\n[=-]+(\r?\n)*')
 
-USE_CACHE = False
+USE_CACHE = True
 
 def make_path_to(path):
 	dirpath = os.path.dirname(path)
