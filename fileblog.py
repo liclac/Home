@@ -9,7 +9,14 @@ markdowner = markdown2.Markdown(extras=['metadata', 'fenced-code-blocks'])
 timestamp_exp = re.compile(r'\! ([^\r\n]+)\r?\n')
 title_exp = re.compile(r'([^\r\n]+)\r?\n[=-]+(\r?\n)*')
 
+def make_path_to(path):
+	dirpath = os.path.dirname(path)
+	if not os.path.exists(dirpath):
+		os.makedirs(dirpath)
+
 class Post(object):
+	_cache_filename = '__posts.json'
+	
 	def __init__(self, posts_path, slug, full=True):
 		self.slug = slug
 		path = os.path.join(posts_path, self.slug + '.md')
@@ -69,6 +76,7 @@ class Post(object):
 	@classmethod
 	def with_slug(cls, posts_dir, cache_dir, slug, full=True):
 		cachepath = os.path.join(cache_dir, slug + '.json')
+		make_path_to(cachepath)
 		if not slug.startswith('_') and not slug.startswith('.'):
 			try:
 				with open(cachepath) as f:
@@ -83,7 +91,8 @@ class Post(object):
 	
 	@classmethod
 	def list(cls, posts_dir, cache_dir):
-		cachepath = os.path.join(cache_dir, '__index.json')
+		cachepath = os.path.join(cache_dir, cls._cache_filename)
+		make_path_to(cachepath)
 		try:
 			with open(cachepath) as f:
 				posts = jsonpickle.decode(f.read())
@@ -100,3 +109,6 @@ class Post(object):
 			with open(cachepath, 'w') as f:
 				f.write(jsonpickle.encode(posts))
 		return posts
+
+class Page(Post):
+	_cache_filename = '__pages.json'

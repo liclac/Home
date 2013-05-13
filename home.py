@@ -2,10 +2,9 @@ import os
 from urlparse import urljoin
 from functools import wraps
 from flask import Flask, render_template, request, abort, url_for
-from werkzeug.contrib.cache import SimpleCache
 from werkzeug.contrib.atom import AtomFeed
-from fileblog import Post
 from middleware import PathFix
+from fileblog import Post, Page
 
 app = Flask(__name__)
 # I want this on /, even though mod_rewrite/mod_wsgi doesn't.
@@ -15,11 +14,18 @@ app.wsgi_app = PathFix(app.wsgi_app, '/')
 
 path = os.path.abspath(os.path.dirname(__file__))
 posts_path = os.path.join(path, 'posts')
+pages_path = os.path.join(path, 'pages')
 cache_path = os.path.join(path, 'cache')
 
 make_external = lambda url: urljoin(request.url_root, url)
 
 
+
+@app.context_processor
+def inject_pages():
+	return {
+		'pages': Page.list(pages_path, cache_path)
+	}
 
 @app.route('/')
 def home():
@@ -32,11 +38,10 @@ def blog():
 @app.route('/blog/<slug>/')
 def blog_post(slug):
 	try:
-		#post = Post.slug(posts_path, cache_path, slug)
 		post = Post.with_slug(posts_path, cache_path, slug)
 	except:
 		abort(404)
-	return render_template('blog_post.html', slug=slug, post=post)
+	return render_template('blog_post.html', post=post)
 
 # http://flask.pocoo.org/snippets/10/
 @app.route('/blog/feed.atom')
@@ -54,6 +59,15 @@ def blog_feed():
 			published=post.created
 		)
 	return feed.get_response()
+
+@app.route('/<path:path>/')
+def page(path):
+	try:
+		page = Page.with_slug(pages_path, cache_path, path)
+	except Exception as e:
+		print e
+		abort(404)
+	return render_template('page.html', page=page)
 
 
 
