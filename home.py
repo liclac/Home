@@ -63,7 +63,7 @@ def blog():
 def blog_post(slug):
 	try:
 		#post = Post.slug(posts_path, cache_path, slug)
-		post = Post(posts_path, cache_path, slug)
+		post = Post.with_slug(posts_path, cache_path, slug)
 	except:
 		abort(404)
 	return render_template('blog_post.html', slug=slug, post=post)

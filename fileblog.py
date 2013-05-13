@@ -72,8 +72,23 @@ class Post(object):
 			out.writelines(lines)
 	
 	@classmethod
+	def with_slug(cls, posts_dir, cache_dir, slug, full=True):
+		cachepath = os.path.join(cache_dir, slug + '.json')
+		if not slug.startswith('_') and not slug.startswith('.'):
+			try:
+				with open(cachepath) as f:
+					post = jsonpickle.decode(f.read())
+					return post
+			except:
+				pass
+		post = cls(posts_dir, cache_dir, slug, full)
+		with open(cachepath, 'w') as f:
+			f.write(jsonpickle.encode(post))
+		return post
+	
+	@classmethod
 	def list(cls, posts_dir, cache_dir):
-		cachepath = os.path.join(cache_dir, 'posts.json')
+		cachepath = os.path.join(cache_dir, '__index.json')
 		try:
 			with open(cachepath) as f:
 				posts = jsonpickle.decode(f.read())
