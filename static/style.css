@@ -18,6 +18,9 @@ article h2 {
 	margin-top:48px;
 	border-bottom:1px solid #ccc;
 }
+article h2:first-child {
+	margin-top:10px;
+}
 
 article p {
 	margin-bottom:20px;

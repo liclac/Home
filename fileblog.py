@@ -9,13 +9,16 @@ markdowner = markdown2.Markdown(extras=['metadata', 'fenced-code-blocks'])
 timestamp_exp = re.compile(r'\! ([^\r\n]+)\r?\n')
 title_exp = re.compile(r'([^\r\n]+)\r?\n[=-]+(\r?\n)*')
 
+USE_CACHE = False
+
 def make_path_to(path):
 	dirpath = os.path.dirname(path)
 	if not os.path.exists(dirpath):
 		os.makedirs(dirpath)
 
 class Post(object):
-	_cache_filename = '__posts.json'
+	_index_cache_filename = '__posts.json'
+	_sortkey = 'created'
 	
 	def __init__(self, posts_path, slug, full=True):
 		self.slug = slug
@@ -76,7 +79,7 @@ class Post(object):
 	@classmethod
 	def with_slug(cls, posts_dir, cache_dir, slug, full=True):
 		cachepath = os.path.join(cache_dir, slug + '.json')
-		if not slug.startswith('_') and not slug.startswith('.'):
+		if USE_CACHE and not slug.startswith('_') and not slug.startswith('.'):
 			try:
 				with open(cachepath) as f:
 					post = jsonpickle.decode(f.read())
@@ -91,24 +94,36 @@ class Post(object):
 	
 	@classmethod
 	def list(cls, posts_dir, cache_dir):
-		cachepath = os.path.join(cache_dir, cls._cache_filename)
-		try:
-			with open(cachepath) as f:
-				posts = jsonpickle.decode(f.read())
-		except:
-			posts = [ cls(posts_dir, '.'.join(filename.split(os.extsep)[:-1]), False) \
-						for filename in os.listdir(posts_dir) \
-						if filename.endswith('.md') \
-						and not filename.startswith('_') \
-						and not filename.startswith('.') ]
-			
-			# Note: sort() is slightly more efficient than sorted()
-			posts.sort(key=attrgetter('created'), reverse=True)
-			
-			make_path_to(cachepath)
-			with open(cachepath, 'w') as f:
-				f.write(jsonpickle.encode(posts))
+		cachepath = os.path.join(cache_dir, cls._index_cache_filename)
+		if USE_CACHE:
+			try:
+				with open(cachepath) as f:
+					posts = jsonpickle.decode(f.read())
+					return posts
+			except:
+				pass
+		
+		posts = [ cls(posts_dir, '.'.join(filename.split(os.extsep)[:-1]), False) \
+					for filename in os.listdir(posts_dir) \
+					if filename.endswith('.md') \
+					and not filename.startswith('_') \
+					and not filename.startswith('.') ]
+		
+		# Note: sort() is slightly more efficient than sorted()
+		if cls._sortkey:
+			posts.sort(key=attrgetter(cls._sortkey), reverse=True)
+		
+		make_path_to(cachepath)
+		with open(cachepath, 'w') as f:
+			f.write(jsonpickle.encode(posts))
 		return posts
 
 class Page(Post):
-	_cache_filename = '__pages.json'
+	_index_cache_filename = '__pages.json'
+	_sortkey = None
+	
+	# Pages don't need timestamps
+	def extract_timestamp(self, text, path):
+		return text
+	def write_timestamp(self, path):
+		pass

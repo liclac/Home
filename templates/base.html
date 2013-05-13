@@ -27,11 +27,11 @@
 				<div class="navbar-inner">
 					<ul class="nav">
 						{{ nav_li(url_for('home'), 'Home') }}
-						{{ nav_li(url_for('blog'), 'Blog') }}
 						{% for page in pages %}
 							{#<li><a href="{{ url_for('page', path=page.slug) }}">{{ page.title }}</a></li>#}
 							{{ nav_li(url_for('page', path=page.slug), page.title) }}
 						{% endfor %}
+						{{ nav_li(url_for('blog'), 'Blog') }}
 					</ul>
 				</div>
 			</div>
