@@ -29,6 +29,6 @@
 		</header>
 		{{ project.description }}
 	</article>
-	<hr />
+	{% if not loop.last %}<hr />{% endif %}
 	{% endfor %}
 {% endblock %}
