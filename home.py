@@ -13,41 +13,11 @@ app = Flask(__name__)
 # says it should be.
 app.wsgi_app = PathFix(app.wsgi_app, '/')
 
-# I don't need memcached for such a simple project.
-# Local memory is also far easier to nuke.
-cache = SimpleCache()
-
-
-
 path = os.path.abspath(os.path.dirname(__file__))
 posts_path = os.path.join(path, 'posts')
 cache_path = os.path.join(path, 'cache')
 
-CACHE_TIMEOUT = 0#60*60
-
-def make_external(url):
-	return urljoin(request.url_root, url)
-
-
-
-# http://flask.pocoo.org/snippets/9/
-@app.before_request
-def return_cached():
-	# Don't cache things with GET or POST values
-	if not request.values:
-		response = cache.get(request.path)
-		if response:
-			return response
-
-@app.after_request
-def cache_response(response):
-	if not request.values:
-		try:
-			cache.set(request.path, response, CACHE_TIMEOUT)
-		except:
-			# If we're dealing with an uncacheable type...
-			pass
-	return response
+make_external = lambda url: urljoin(request.url_root, url)
 
 
 
@@ -101,4 +71,3 @@ def error500(error):
 
 if __name__ == '__main__':
 	app.run(debug=True, host='0.0.0.0')
-	
