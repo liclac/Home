@@ -105,6 +105,7 @@ article footer {
 
 @media (min-width: 768px) {
 	article p, article ul { padding-left:5%; }
+	article blockquote { margin-left:5%; }
 	article .title { white-space:nowrap; }
 }
 

@@ -5,6 +5,13 @@
 	<article class="project">
 		<header class="clearfix">
 			<div class="project-badges pull-right">
+				{% if project.download %}
+				<a href="http://macaronicode.se/downloads/{{ project.download }}"
+					title="Download" target="_blank"
+					class="project-badge">
+					<i class="icon-download"></i>
+				</a>
+				{% endif %}
 				{% if project.web %}
 				<a href="{{ project.web }}"
 					title="Visit" target="_blank"
@@ -21,13 +28,16 @@
 				{% endif %}
 			</div>
 			
-			<h3>
-				{{ project.name }}
-			</h3>
-			
+			<h3>{{ project.name }}</h3>
 			<h5 class="muted">{{ project.language }}, {{ project.platform }}</h5>
 		</header>
-		{{ project.description }}
+		{% if project.quote %}
+		<blockquote>
+			{{ project.quote|safe }}
+			{% if project.quote_source %}<small>{{ project.quote_source }}</small>{% endif %}
+		</blockquote>
+		{% endif %}
+		<p>{{ project.description|safe }}</p>
 	</article>
 	{% if not loop.last %}<hr />{% endif %}
 	{% endfor %}
