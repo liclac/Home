@@ -91,6 +91,9 @@ article p {
  * Blog
  */
 
+.read-more { margin-bottom:0; }
+.read-more a { display:block; line-height:40px; }
+
 article { margin-bottom:30px; }
 article .timestamp { white-space:nowrap; }
 article img { display:block; }
