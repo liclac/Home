@@ -7,6 +7,5 @@
 		{% include "blog_post_display.html" with context %}
 		<p class="read-more"><a href="{{ url_for('blog_post', slug=post.slug) }}">Read More...</a></p>
 	</article>
-	{% if not loop.last %}<hr />{% endif %}
 {% endfor %}
 {% endblock %}

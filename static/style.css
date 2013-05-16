@@ -5,6 +5,7 @@ body {
 	font-family: Georgia, "Helvetica Neue", Helvetica, sans-serif;
 	font-size:16px;
 	line-height:24px;
+	padding-bottom:20px;
 }
 
 h1, h2, h3, h4, h5 {
@@ -73,7 +74,7 @@ article p {
 	border-bottom:1px solid #000;
 	margin-bottom:-1px;
 }
-.nav {
+.navbar .nav {
 	width:100%;
 	border-bottom:1px solid #ccc;
 }
@@ -88,13 +89,50 @@ article p {
 
 
 /*
+ * Home
+ */
+
+.home-sidebar h5 {
+	margin-top:0;
+}
+/* http://stackoverflow.com/questions/14601425/bootstrap-navbar-justify-span-menu-items-occupying-full-width */
+.me-links {
+	margin:0;
+	display:table;
+	border-top:1px solid #ccc;
+	margin-top:10px;
+	padding-top:10px;
+}
+
+.me-links li {
+	display:table-cell;
+	width:1%;
+	float:none;
+}
+
+.me-links li a {
+	text-align:center;
+}
+
+
+
+/*
  * Blog
  */
 
 .read-more { margin-bottom:0; }
 .read-more a { display:block; line-height:40px; }
 
-article { margin-bottom:30px; }
+article {
+	margin-bottom:15px;
+	padding-bottom:15px;
+	border-bottom:1px solid #ccc;
+}
+article:last-child {
+	border-bottom:inherit;
+	margin-bottom:inherit;
+	padding-bottom:inherit;
+}
 article .timestamp { white-space:nowrap; }
 article img { display:block; }
 article footer {

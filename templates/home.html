@@ -2,20 +2,27 @@
 {% block title %}Home{% endblock %}
 {% block headline %}Under (re)construction{% endblock %}
 {% block content %}
-	<h3>Under (re)construction</h3>
-	<p>
-		Basically, I got mad at Mezzanine (the blogging platform I used before) after it broke the site a third time for no good reason.<br />
-		I'm in the process of making my own version from scratch, but, well, it's not quite finished yet.
+	<div class="span4 pull-right home-sidebar">
+		<h5>Hosted Here</h5>
+		<ul class="nav nav-pills nav-stacked">
+			<li><a href="http://macaronicode.se/tweetool/" target="_blank">Tweetool</a></li>
+			<li><a href="http://macaronicode.se/MitaOri/" target="_blank">Mitakihara Original</a></li>
+		</ul>
+		<hr class="visible-phone" />
+	</div>
+	
+	<p class="span8 lead">
+		I make things.<br />
+		Sometimes, these things are useful.
 	</p>
-	<p>
-		<a href="http://twitter.com/uppfinnarn" target="_blank">Twitter</a> |
-		<a href="http://heello.com/uppfinnarn" target="_blank">Heello</a> |
-		<a href="http://github.com/uppfinnarn" target="_blank">GitHub</a>
+	
+	<p class="span8">
+		I'm a hobbyist programmer who likes doing stupid things just to see if it works, obsesses over details, rants about technology on the internet and writes WAY too long sentences.
 	</p>
-	<hr />
-	<h3>On this site:</h3>
-	<ul>
-		<li><a href="/MitaOri/">Mitakihara Original</a></li>
-		<li><a href="/tweetool/">Tweetool</a></li>
+	
+	<ul class="span8 nav nav-pills me-links">
+		<li><a href="http://twitter.com/uppfinnarn">Twitter</a></li>
+		<li><a href="http://heello.com/uppfinnarn">Heello</a></li>
+		<li><a href="http://github.com/uppfinnarn">GitHub</a></li>
 	</ul>
 {% endblock %}
