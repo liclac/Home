@@ -137,9 +137,8 @@ article .timestamp { white-space:nowrap; }
 article img { display:block; }
 article footer {
 	border-top:1px solid #ccc;
-	border-bottom:1px solid #ccc;
 	margin-top:30px;
-	padding:5px 0;
+	padding-top:5px;
 	text-align:right;
 	color:#999;
 }
