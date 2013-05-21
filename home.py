@@ -55,7 +55,8 @@ def blog():
 def blog_post(slug):
 	try:
 		post = Post.with_slug(posts_path, cache_path, slug)
-	except:
+	except Exception as e:
+		print e
 		abort(404)
 	return render_template('blog_post.html', post=post)
 
