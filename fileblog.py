@@ -79,7 +79,8 @@ class Post(object):
 	@classmethod
 	def with_slug(cls, posts_dir, cache_dir, slug, full=True):
 		cachepath = os.path.join(cache_dir, slug + '.json')
-		if USE_CACHE and not slug.startswith('_') and not slug.startswith('.'):
+		should_cache = USE_CACHE and not slug.startswith('_') and not slug.startswith('.')
+		if should_cache:
 			try:
 				with open(cachepath) as f:
 					post = jsonpickle.decode(f.read())
@@ -87,9 +88,10 @@ class Post(object):
 			except:
 				pass
 		post = cls(posts_dir, slug, full)
-		make_path_to(cachepath)
-		with open(cachepath, 'w') as f:
-			f.write(jsonpickle.encode(post))
+		if should_cache:
+			make_path_to(cachepath)
+			with open(cachepath, 'w') as f:
+				f.write(jsonpickle.encode(post))
 		return post
 	
 	@classmethod
