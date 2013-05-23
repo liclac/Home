@@ -1,5 +1,4 @@
 *.pyc
-posts/*.md
 cache/*.json
 ._*
 .DS_Store
