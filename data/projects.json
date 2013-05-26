@@ -1,28 +1,46 @@
 [
 	{
-		"name": "Tweetool",
-		"description": "Gives users the features Twitter should already have.",
-		"language": "Python",
-		"platform": "Web",
-		"github": "uppfinnarn/Tweetool",
-		"web": "http://macaronicode.se/tweetool/"
+		"css_id": "web",
+		"title": "Web",
+		"projects": [
+			{
+				"name": "Tweetool",
+				"description": "Gives users the features Twitter should already have.",
+				"language": "Python",
+				"platform": "Web",
+				"github": "uppfinnarn/Tweetool",
+				"web": "http://macaronicode.se/tweetool/"
+			}
+		]
 	},
 	{
-		"name": "Horse-o-Matic",
-		"description": "Makes your computer speak the wise words of <a href=\"http://twitter.com/Horse_ebooks\" target=\"_blank\">@Horse_ebooks</a>. Yes, speak.",
-		"quote": "Trainer of deadly untrainable horses, Goodbye to yet another dead plant.",
-		"quote_source": "Horse_ebooks",
-		"quote_source_href": "http://twitter.com/Horse_ebooks",
-		"language": "Objective-C",
-		"platform": "Mac",
-		"github": "uppfinnarn/Horse-o-Matic",
-		"download": "Horse-o-Matic.zip"
+		"css_id": "cross-platform",
+		"title": "Cross-Platform",
+		"projects": [
+			{
+				"name": "MeidoBot",
+				"description": "A natural language assistant, a little bot you can order around to help you out.",
+				"language": "Python",
+				"platform": "Cross-Platform",
+				"github": "uppfinnarn/MeidoBot"
+			}
+		]
 	},
 	{
-		"name": "MeidoBot",
-		"description": "A natural language assistant, a little bot you can order around to help you out.",
-		"language": "Python",
-		"platform": "Cross-Platform",
-		"github": "uppfinnarn/MeidoBot"
+		"css_id": "mac",
+		"title": "Mac",
+		"projects": [
+			{
+				"name": "Horse-o-Matic",
+				"description": "Makes your computer speak the wise words of <a href=\"http://twitter.com/Horse_ebooks\" target=\"_blank\">@Horse_ebooks</a>. Yes, speak.",
+				"quote": "Trainer of deadly untrainable horses, Goodbye to yet another dead plant.",
+				"quote_source": "Horse_ebooks",
+				"quote_source_href": "http://twitter.com/Horse_ebooks",
+				"language": "Objective-C",
+				"platform": "Mac",
+				"github": "uppfinnarn/Horse-o-Matic",
+				"download": "Horse-o-Matic.zip"
+			}
+		]
 	}
 ]

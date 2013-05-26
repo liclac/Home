@@ -8,7 +8,7 @@ body {
 	padding-bottom:20px;
 }
 
-h1, h2, h3, h4, h5 {
+h1, h2, h3, h4, h5, h6 {
 	font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
@@ -46,7 +46,7 @@ article p {
 	color:#ccc;
 }
 .feed-link:hover {
-	color:#333;
+	color:#fa3;
 	text-decoration:none;
 }
 .feed-link i {
@@ -112,6 +112,54 @@ article p {
 
 .me-links li a {
 	text-align:center;
+}
+
+
+
+/*
+ * Projects
+ */
+.project-category { margin-top:50px; }
+.project-category:first-child { margin-top:0; }
+.project-category > h5 {
+	border-bottom:1px solid #ccc;
+	text-align:center;
+}
+.project {
+	border-bottom:none;
+	border-left:3px solid #ccc;
+	padding-left:10px;
+}
+.project-category-web .project { border-left-color:#fcc; }
+.project-category-cross-platform .project { border-left-color:#9c9; }
+.project-category-mac .project { border-left-color:#ccf; }
+
+.project h3, .project h6 { display:inline-block; margin:0; }
+
+.project-badges {
+	display:inline-block;
+}
+.project-badge {
+	padding-left:10px; color:#ccc;
+	font-size:33px;
+	transition:color 0.2s;
+	-webkit-transition:color 0.2s;
+}
+/* Remember, floats flip the order! */
+.project-badge:last-child {
+	padding-left:0;
+}
+.project-badge:hover {
+	text-decoration:none;
+	color:#000;
+}
+.project-badge-web:hover { color:#66f; }
+.project-badge-download:hover { color:#090; }
+
+@media (max-width: 767px) {
+	.project h3, .project h6 { display:block; }
+	.project header { margin-bottom:10px; }
+	.project-badge { font-size:32px; }
 }
 
 
@@ -184,35 +232,4 @@ article footer {
 	.navbar .nav li a {
 		text-align:center;
 	}
-}
-
-
-
-/*
- * Projects
- */
-.project h3, .project h5 { display:inline-block; margin:0; }
-
-.project-badges {
-	display:inline-block;
-}
-.project-badge {
-	padding-left:10px; color:#ccc;
-	font-size:33px;
-	transition:color 0.2s;
-	-webkit-transition:color 0.2s;
-}
-/* Remember, floats flip the order! */
-.project-badge:last-child {
-	padding-left:0;
-}
-.project-badge:hover {
-	text-decoration:none;
-	color:#000;
-}
-
-@media (max-width: 767px) {
-	.project h3, .project h5 { display:block; }
-	.project header { margin-bottom:10px; }
-	.project-badge { font-size:32px; }
 }

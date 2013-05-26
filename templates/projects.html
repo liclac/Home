@@ -1,43 +1,50 @@
 {% extends "base.html" %}
 {% block title %}Projects{% endblock %}
 {% block content %}
-	{% for project in projects %}
-	<article class="project">
-		<header class="clearfix">
-			<div class="project-badges pull-right">
-				{% if project.download %}
-				<a href="http://macaronicode.se/downloads/{{ project.download }}"
-					title="Download" target="_blank"
-					class="project-badge">
-					<i class="icon-download"></i>
-				</a>
-				{% endif %}
-				{% if project.web %}
-				<a href="{{ project.web }}"
-					title="Visit" target="_blank"
-					class="project-badge">
-					<i class="icon-globe"></i>
-				</a>
-				{% endif %}
-				{% if project.github %}
-				<a href="http://github.com/{{ project.github }}"
-					title="GitHub" target="_blank"
-					class="project-badge">
-					<i class="icon-github"></i>
-				</a>
-				{% endif %}
-			</div>
-			
-			<h3>{{ project.name }}</h3>
-			<h5 class="muted">{{ project.language }}, {{ project.platform }}</h5>
-		</header>
-		{% if project.quote %}
-		<blockquote>
-			{{ project.quote|safe }}
-			{% if project.quote_source %}<small>{{ project.quote_source }}</small>{% endif %}
-		</blockquote>
-		{% endif %}
-		<p>{{ project.description|safe }}</p>
-	</article>
+	{% for category in projects %}
+	<div class="project-category project-category-{{ category.css_id }}">
+		<h5>{{ category.title }}</h5>
+	
+		{% for project in category.projects %}
+		<article class="project">
+			<header class="clearfix">
+				<div class="project-badges pull-right">
+					{% if project.download %}
+					<a href="http://macaronicode.se/downloads/{{ project.download }}"
+						title="Download" target="_blank"
+						class="project-badge project-badge-download">
+						<i class="icon-download"></i>
+					</a>
+					{% endif %}
+					{% if project.web %}
+					<a href="{{ project.web }}"
+						title="Visit" target="_blank"
+						class="project-badge project-badge-web">
+						<i class="icon-globe"></i>
+					</a>
+					{% endif %}
+					{% if project.github %}
+					<a href="http://github.com/{{ project.github }}"
+						title="GitHub" target="_blank"
+						class="project-badge project-badge-github">
+						<i class="icon-github"></i>
+					</a>
+					{% endif %}
+				</div>
+	
+				<h3>{{ project.name }}</h3>
+				<h6 class="muted">{{ project.language }}</h6>
+			</header>
+			{% if project.quote %}
+			<blockquote>
+				{{ project.quote|safe }}
+				{% if project.quote_source %}<small>{{ project.quote_source }}</small>{% endif %}
+			</blockquote>
+			{% endif %}
+			<p>{{ project.description|safe }}</p>
+		</article>
+		{% endfor %}
+	
+	</div>
 	{% endfor %}
 {% endblock %}
