@@ -11,13 +11,10 @@
 		<p class="errcode">{{ errcode }}</p>
 		<p class="errname">{{ errname }}</p>
 		<p>{{ errmsg }}</p>
-		<!--<p class="links">
-			<a href="{{ url_for('home') }}">Home</a><span class="divider"></span><a href="{{ url_for('blog') }}">Blog</a>
-		</p>-->
 		<hr />
 		<ul id="links" class="inline">
 			<li><a href="{{ url_for('home') }}">Home</a></li>
-			<li><a href="{{ url_for('blog') }}">Blog</a></li>
+			<li><a href="{{ url_for('blog.index') }}">Blog</a></li>
 		</ul>
 	</div>
 	{% include "google_analytics.html" %}

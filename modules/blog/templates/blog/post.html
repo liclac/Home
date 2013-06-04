@@ -3,7 +3,7 @@
 {#{% block headline %}Blog Post{% endblock %}#}
 {% block content %}
 <article>
-	{% include "blog_post_display.html" with context %}
+	{% include "blog/post_display.html" with context %}
 	<footer>
 		<span>{{ post.created.strftime("%d %b %Y | %H:%M") }}</span>
 	</footer>
@@ -14,7 +14,7 @@
 	var disqus_shortname = 'macaronicode';
 	var disqus_identifier = '{{ post.slug }}';
 	var disqus_title = '{{ post.title }}';
-	var disqus_url = 'http://macaronicode.se{{ url_for('blog_post', slug=post.slug) }}';
+	var disqus_url = 'http://macaronicode.se{{ url_for('blog.post', slug=post.slug) }}';
 	
 	
 	/* * * DON'T EDIT BELOW THIS LINE * * */

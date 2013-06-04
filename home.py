@@ -5,9 +5,12 @@ from urlparse import urljoin
 from operator import itemgetter
 from flask import Flask, render_template, request, abort, redirect, url_for
 from werkzeug.contrib.atom import AtomFeed
+from pygments.lexers import get_all_lexers
 from middleware import PathFix
 from fileblog import Post, Page, Paste
-from pygments.lexers import get_all_lexers
+from common import *
+
+from modules.blog import blog
 
 app = Flask(__name__)
 # I want this on /, even though mod_rewrite/mod_wsgi doesn't.
@@ -15,30 +18,7 @@ app = Flask(__name__)
 # says it should be.
 app.wsgi_app = PathFix(app.wsgi_app, '/')
 
-root_path_for = lambda p: os.path.join(os.path.abspath(os.path.dirname(__file__)), p)
-content_path = root_path_for('content')
-cache_path = root_path_for('cache')
-
-paths = {
-	'Post': os.path.join(content_path, 'posts'),
-	'Page': os.path.join(content_path, 'pages'),
-	'Paste': os.path.join(content_path, 'pastes')
-}
-path_for_class = lambda cls: paths[cls.__name__]
-data_path = os.path.join(content_path, 'data')
-
-make_external = lambda url: urljoin(request.url_root, url)
-
-def get_or_404(cls, slug, full=True):
-	try:
-		p = cls.with_slug(path_for_class(cls), cache_path, slug, full)
-	except Exception as e:
-		print e
-		abort(404)
-	return p
-
-def get_list(cls):
-	return cls.list(path_for_class(cls), cache_path)
+app.register_blueprint(blog, url_prefix='/blog')
 
 
 
@@ -63,37 +43,9 @@ def error500(error):
 	return render_template('error.html', errcode=500, errname="Server Error",
 							errmsg="Whoops, looks like something made the server blow up...")
 
-
-
 @app.route('/')
 def home():
 	return render_template('home.html')
-
-@app.route('/blog/')
-def blog():
-	return render_template('blog.html', posts=get_list(Post))
-
-@app.route('/blog/<slug>/')
-def blog_post(slug):
-	post = get_or_404(Post, slug)
-	return render_template('blog_post.html', post=post)
-
-# http://flask.pocoo.org/snippets/10/
-@app.route('/blog/feed.atom')
-def blog_feed():
-	feed = AtomFeed('MacaroniCode',
-			feed_url=request.url, url=request.url_root)
-	posts = get_list(Post)
-	for post in posts:
-		feed.add(
-			unicode(post.title), unicode(post.html),
-			content_type='html',
-			author='uppfinnarn',
-			url=make_external(url_for('blog_post', slug=post.slug)),
-			updated=post.created,
-			published=post.created
-		)
-	return feed.get_response()
 
 @app.route('/p/', methods=['GET', 'POST'])
 def paste_new():

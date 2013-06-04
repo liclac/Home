@@ -4,8 +4,8 @@
 {% block content %}
 {% for post in posts %}
 	<article>
-		{% include "blog_post_display.html" with context %}
-		<p class="read-more"><a href="{{ url_for('blog_post', slug=post.slug) }}">Read More...</a></p>
+		{% include "blog/post_display.html" with context %}
+		<p class="read-more"><a href="{{ url_for('blog.post', slug=post.slug) }}">Read More...</a></p>
 	</article>
 {% endfor %}
 {% endblock %}

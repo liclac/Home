@@ -15,13 +15,13 @@
 	<link href="{{ url_for('static', filename='font-awesome.css') }}" rel="stylesheet" />#}
 	<link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" />
 	{% block css_extra %}{% endblock %}
-	<link href="{{ url_for('blog_feed') }}" rel="alternate" title="Recent Changes" type="application/atom+xml" />
+	<link href="{{ url_for('blog.feed') }}" rel="alternate" title="Recent Changes" type="application/atom+xml" />
 </head>
 <body>
 	{% block fullcontent %}
 	<div class="container">
 		<header id="header" class="page-header row-fluid" role="header">
-			<a href="{{ url_for('blog_feed') }}" class="feed-link pull-right"><i class="icon-rss icon-2x"></i></a>
+			<a href="{{ url_for('blog.feed') }}" class="feed-link pull-right"><i class="icon-rss icon-2x"></i></a>
 			<h1 role="banner">
 				MacaroniCode{# <small>{% block headline %}&nbsp;{% endblock %}</small>#}
 			</h1>
@@ -33,7 +33,7 @@
 						{% for page in pages %}
 							{{ nav_li(url_for('page', path=page.slug), page.title) }}
 						{% endfor %}
-						{{ nav_li(url_for('blog'), 'Blog') }}
+						{{ nav_li(url_for('blog.index'), 'Blog') }}
 					</ul>
 				</div>
 			</div>
