@@ -1,5 +1,6 @@
 *.pyc
-cache/*.json
 ._*
 .DS_Store
+cache/*.json
+pastes/*.md
 
