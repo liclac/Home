@@ -5,12 +5,12 @@ from urlparse import urljoin
 from operator import itemgetter
 from flask import Flask, render_template, request, abort, redirect, url_for
 from werkzeug.contrib.atom import AtomFeed
-from pygments.lexers import get_all_lexers
 from middleware import PathFix
 from fileblog import Post, Page, Paste
 from common import *
 
 from modules.blog import blog
+from modules.paste import paste
 
 app = Flask(__name__)
 # I want this on /, even though mod_rewrite/mod_wsgi doesn't.
@@ -19,6 +19,7 @@ app = Flask(__name__)
 app.wsgi_app = PathFix(app.wsgi_app, '/')
 
 app.register_blueprint(blog, url_prefix='/blog')
+app.register_blueprint(paste, url_prefix='/p')
 
 
 
@@ -46,30 +47,6 @@ def error500(error):
 @app.route('/')
 def home():
 	return render_template('home.html')
-
-@app.route('/p/', methods=['GET', 'POST'])
-def paste_new():
-	if request.method == 'POST':
-		text = cgi.escape(request.form['text'].strip())
-		syntax = cgi.escape(request.form['syntax'].strip())
-		
-		if not text:
-			return redirect(url_for('paste_new'))
-		
-		paste = Paste.create(path_for_class(Paste), text, syntax)
-		return redirect(url_for('paste', slug=paste.slug))
-	
-	return render_template('paste_new.html')
-
-@app.route('/p/<slug>/')
-def paste(slug):
-	paste = get_or_404(Paste, slug)
-	return render_template('paste.html', paste=paste)
-
-@app.route('/p/<slug>/raw/')
-def paste_raw(slug):
-	paste = get_or_404(Paste, slug, False)
-	return (paste.text, 200, {'Content-Type': 'text/plain'})
 
 @app.route('/projects/')
 def projects():

@@ -8,7 +8,7 @@
 	<div class="row-fluid">
 		<h3>
 			Pasted {{ paste.created.strftime('%H:%M, %d %b %Y') }}
-			<small><a href="{{ url_for('paste_raw', slug=paste.slug) }}">View Raw</a></small>
+			<small><a href="{{ url_for('paste.view_raw', slug=paste.slug) }}">View Raw</a></small>
 		</h3>
 	</div>
 	<div class="row-fluid">
