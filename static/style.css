@@ -242,7 +242,6 @@ article footer {
 /*
  * Pastes
  */
-#autoresizing-textarea {
-	overflow: hidden;
-	resize: none;
+#paste-text {
+	height:100px;
 }

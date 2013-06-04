@@ -1,18 +1,22 @@
 {% extends "base.html" %}
 {% block title %}Paste{% endblock %}
 {% block js_extra %}
-	<script src="{{ url_for('static', filename='autoresizing-textarea.js') }}"></script>
+	<script src="http://code.jquery.com/jquery.min.js"></script>
+	<script src="{{ url_for('static', filename='jquery.autosize.min.js') }}"></script>
+	<script>
+		$('#paste-text').autosize()
+	</script>
 {% endblock %}
 {% block fullcontent %}
 <div class="container-fluid">
 	<div class="row-fluid">
-		<h3>Create Paste <small>Textarea will resize as you type</small></h3>
+		<h3>Create Paste <small>The textarea will resize as you type</small></h3>
 	</div>
 	<div class="row-fluid clearfix">
 		<form action="." method="POST">
-			<textarea name="text" id="autoresizing-textarea" rows="1" class="input-block-level" autofocus="autofocus"></textarea>
-			<input type="text" name="syntax" placeholder="Syntax Highlighting (ex. 'python')" class="input-xlarge">
-			<input type="submit" value="Post" class="btn btn-primary pull-right" />
+			<textarea name="text" id="paste-text" class="input-block-level" autofocus="autofocus" placeholder="Lorem ipsum dolor sit amet"></textarea>
+			<input type="text" name="syntax" class="input-xlarge" placeholder="Syntax Highlighting (ex. 'python')">
+			<input type="submit" class="btn btn-primary pull-right" value="Post" />
 		</form>
 	</div>
 </div>

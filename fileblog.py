@@ -183,7 +183,10 @@ class Paste(Post):
 			self.text = text
 	
 	@classmethod
-	def create(cls, pastes_path, text, return_full=False):
+	def create(cls, pastes_path, text, syntax, return_full=False):
+		if syntax:
+			text = "!s %s\n%s" % (syntax, text)
+		
 		# Keep generating IDs until we find one that's not taken
 		while True:
 			slug = ''.join(random.choice(cls._slug_chars) for x in range(cls._slug_length))

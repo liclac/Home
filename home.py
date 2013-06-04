@@ -2,7 +2,7 @@ import os
 import json
 from urlparse import urljoin
 from operator import itemgetter
-from flask import Flask, render_template, request, abort, url_for
+from flask import Flask, render_template, request, abort, redirect, url_for
 from werkzeug.contrib.atom import AtomFeed
 from middleware import PathFix
 from fileblog import Post, Page, Paste
@@ -78,8 +78,15 @@ def blog_post(slug):
 @app.route('/p/', methods=['GET', 'POST'])
 def paste_new():
 	if request.method == 'POST':
-		text = request.form.text
-		return (text, 200, {'Content-Type', 'text/plain'})
+		text = request.form['text'].strip()
+		syntax = request.form['syntax'].strip()
+		
+		if not text:
+			return redirect(url_for('paste_new'))
+		
+		paste = Paste.create(pastes_path, text, syntax)
+		return redirect(url_for('paste', slug=paste.slug))
+	
 	return render_template('paste_new.html')
 
 @app.route('/p/<slug>/')
