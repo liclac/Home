@@ -18,28 +18,33 @@ root_path_for = lambda p: os.path.join(os.path.abspath(os.path.dirname(__file__)
 content_path = root_path_for('content')
 cache_path = root_path_for('cache')
 
-path_for = lambda p: os.path.join(content_path, p)
-posts_path = path_for('posts')
-pages_path = path_for('pages')
-pastes_path = path_for('pastes')
-data_path = path_for('data')
+paths = {
+	'Post': os.path.join(content_path, 'posts'),
+	'Page': os.path.join(content_path, 'pages'),
+	'Paste': os.path.join(content_path, 'pastes')
+}
+path_for_class = lambda cls: paths[cls.__name__]
+data_path = os.path.join(content_path, 'data')
 
 make_external = lambda url: urljoin(request.url_root, url)
 
-def get_or_404(cls, path, slug, full=True):
+def get_or_404(cls, slug, full=True):
 	try:
-		p = cls.with_slug(path, cache_path, slug, full)
+		p = cls.with_slug(path, path_for_class(cls), slug, full)
 	except Exception as e:
 		print e
 		abort(404)
 	return p
+
+def get_list(cls):
+	return cls.list(path_for_class(cls), cache_path)
 
 
 
 @app.context_processor
 def inject_pages():
 	return {
-		'pages': Page.list(pages_path, cache_path)
+		'pages': get_list(Page)
 	}
 
 
@@ -67,15 +72,11 @@ def home():
 
 @app.route('/blog/')
 def blog():
-	return render_template('blog.html', posts=Post.list(posts_path, cache_path))
+	return render_template('blog.html', posts=get_list(Post))
 
 @app.route('/blog/<slug>/')
 def blog_post(slug):
-	try:
-		post = Post.with_slug(posts_path, cache_path, slug)
-	except Exception as e:
-		print e
-		abort(404)
+	post = get_or_404(Post, slug)
 	return render_template('blog_post.html', post=post)
 
 @app.route('/p/', methods=['GET', 'POST'])
@@ -94,16 +95,12 @@ def paste_new():
 
 @app.route('/p/<slug>/')
 def paste(slug):
-	try:
-		paste = Paste.with_slug(pastes_path, cache_path, slug)
-	except Exception as e:
-		print e
-		abort(404)
+	paste = get_or_404(Paste, slug)
 	return render_template('paste.html', paste=paste)
 
 @app.route('/p/<slug>/raw/')
 def paste_raw(slug):
-	paste = get_or_404(Paste, pastes_path, slug, False)
+	paste = get_or_404(Paste, slug, False)
 	return (paste.text, 200, {'Content-Type': 'text/plain'})
 
 @app.route('/projects/')
@@ -117,7 +114,7 @@ def projects():
 def blog_feed():
 	feed = AtomFeed('MacaroniCode',
 			feed_url=request.url, url=request.url_root)
-	posts = Post.list(posts_path)
+	posts = get_list(Post)
 	for post in posts:
 		feed.add(
 			unicode(post.title), unicode(post.html),
@@ -134,11 +131,7 @@ def page(path):
 	if path == 'favicon.ico':
 		abort(404)
 	
-	try:
-		page = Page.with_slug(pages_path, cache_path, path)
-	except Exception as e:
-		#print e
-		abort(404)
+	page = get_or_404(Page, path)
 	return render_template('page.html', page=page)
 
 
