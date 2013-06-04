@@ -27,23 +27,6 @@ app.register_blueprint(paste, url_prefix='/p')
 def inject_pages():
 	return { 'pages': get_list(Page) }
 
-
-
-@app.errorhandler(401)
-def error401(error):
-	return render_template('error.html', errcode=401, errname="Unauthorized",
-							errmsg="You're not supposed to be here.")
-
-@app.errorhandler(404)
-def error404(error):
-	return render_template('error.html', errcode=404, errname="Not Found",
-							errmsg="These are not the pages you are looking for.")
-
-@app.errorhandler(500)
-def error500(error):
-	return render_template('error.html', errcode=500, errname="Server Error",
-							errmsg="Whoops, looks like something made the server blow up...")
-
 @app.route('/')
 def home():
 	return render_template('home.html')
@@ -61,6 +44,23 @@ def page(path):
 	
 	page = get_or_404(Page, path)
 	return render_template('page.html', page=page)
+
+
+
+@app.errorhandler(401)
+def error401(error):
+	return render_template('error.html', errcode=401, errname="Unauthorized",
+							errmsg="You're not supposed to be here.")
+
+@app.errorhandler(404)
+def error404(error):
+	return render_template('error.html', errcode=404, errname="Not Found",
+							errmsg="These are not the pages you are looking for.")
+
+@app.errorhandler(500)
+def error500(error):
+	return render_template('error.html', errcode=500, errname="Server Error",
+							errmsg="Whoops, looks like something made the server blow up...")
 
 
 

@@ -1,4 +1,5 @@
 import os
+from flask import abort
 
 root_path_for = lambda p: os.path.join(os.path.abspath(os.path.dirname(__file__)), p)
 content_path = root_path_for('content')
