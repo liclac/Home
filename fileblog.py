@@ -34,7 +34,7 @@ class Post(object):
 		path = os.path.join(posts_path, self.slug + '.' + self._extension)
 		
 		with open(path) as f:
-			text = f.read()
+			text = f.read().decode('utf-8')
 		
 		text = self.extract_meta(text, path)
 		text = self.extract_title(text)
@@ -97,7 +97,7 @@ class Post(object):
 		if should_cache:
 			try:
 				with open(cachepath) as f:
-					post = jsonpickle.decode(f.read())
+					post = jsonpickle.decode(f.read().decode('utf-8'))
 					return post
 			except:
 				pass
@@ -115,7 +115,7 @@ class Post(object):
 		if USE_CACHE:
 			try:
 				with open(cachepath) as f:
-					posts = jsonpickle.decode(f.read())
+					posts = jsonpickle.decode(f.read().decode('utf-8'))
 					return posts
 			except:
 				pass
@@ -132,7 +132,7 @@ class Post(object):
 		
 		make_path_to(cachepath)
 		with open(cachepath, 'w') as f:
-			f.write(jsonpickle.encode(posts))
+			f.write(jsonpickle.encode(posts).encode('utf-8'))
 		return posts
 
 class Page(Post):
@@ -194,7 +194,7 @@ class Paste(Post):
 			if not os.path.exists(path):
 				break
 		with open(path, 'w') as f:
-			f.write(text)
+			f.write(text.encode('utf-8'))
 		
 		paste = Paste(pastes_path, slug, return_full)
 		return paste
