@@ -14,12 +14,15 @@ app = Flask(__name__)
 # says it should be.
 app.wsgi_app = PathFix(app.wsgi_app, '/')
 
-path_for = lambda p: os.path.join(os.path.abspath(os.path.dirname(__file__)), p)
+root_path_for = lambda p: os.path.join(os.path.abspath(os.path.dirname(__file__)), p)
+content_path = root_path_for('content')
+cache_path = root_path_for('cache')
+
+path_for = lambda p: os.path.join(content_path, p)
 posts_path = path_for('posts')
 pages_path = path_for('pages')
 pastes_path = path_for('pastes')
 data_path = path_for('data')
-cache_path = path_for('cache')
 
 make_external = lambda url: urljoin(request.url_root, url)
 
