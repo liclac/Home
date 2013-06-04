@@ -7,9 +7,15 @@
 				"name": "Tweetool",
 				"description": "Gives users the features Twitter should already have.",
 				"language": "Python",
-				"platform": "Web",
 				"github": "uppfinnarn/Tweetool",
 				"web": "http://macaronicode.se/tweetool/"
+			},
+			{
+				"name": "Igures / Invoke Organically",
+				"description": "Generates random sentences using a dictionary, and posts them to Twitter.",
+				"language": "Python",
+				"github": "uppfinnarn/Igures",
+				"web": "http://twitter.com/Igures"
 			}
 		]
 	},
@@ -21,7 +27,6 @@
 				"name": "MeidoBot",
 				"description": "A natural language assistant, a little bot you can order around to help you out.",
 				"language": "Python",
-				"platform": "Cross-Platform",
 				"github": "uppfinnarn/MeidoBot"
 			}
 		]
@@ -37,7 +42,6 @@
 				"quote_source": "Horse_ebooks",
 				"quote_source_href": "http://twitter.com/Horse_ebooks",
 				"language": "Objective-C",
-				"platform": "Mac",
 				"github": "uppfinnarn/Horse-o-Matic",
 				"download": "Horse-o-Matic.zip"
 			}
