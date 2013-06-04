@@ -171,16 +171,13 @@ class Paste(Post):
 		return text
 	
 	def extract_content(self, text, full=True):
-		if self.is_full:
-			#text = text.replace('\t', ' '*4)
-			if self.syntax:
-				lexer = get_lexer_by_name(self.syntax)
-				formatter = HtmlFormatter()
-				self.html = highlight(text, lexer, formatter)
-			else:
-				self.html = "<pre>%s</pre>" % text
+		self.text = text
+		if self.syntax:
+			lexer = get_lexer_by_name(self.syntax)
+			formatter = HtmlFormatter()
+			self.html = highlight(text, lexer, formatter)
 		else:
-			self.text = text
+			self.html = "<pre>%s</pre>" % text
 	
 	@classmethod
 	def create(cls, pastes_path, text, syntax, return_full=False):
