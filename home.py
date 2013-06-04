@@ -1,11 +1,12 @@
 import os
 import json
 from urlparse import urljoin
-from functools import wraps
+from operator import itemgetter
 from flask import Flask, render_template, request, abort, url_for
 from werkzeug.contrib.atom import AtomFeed
 from middleware import PathFix
-from fileblog import Post, Page
+from fileblog import Post, Page, Paste
+from pygments.lexers import get_all_lexers
 
 app = Flask(__name__)
 # I want this on /, even though mod_rewrite/mod_wsgi doesn't.
@@ -13,13 +14,22 @@ app = Flask(__name__)
 # says it should be.
 app.wsgi_app = PathFix(app.wsgi_app, '/')
 
-path = os.path.abspath(os.path.dirname(__file__))
-posts_path = os.path.join(path, 'posts')
-pages_path = os.path.join(path, 'pages')
-data_path = os.path.join(path, 'data')
-cache_path = os.path.join(path, 'cache')
+path_for = lambda p: os.path.join(os.path.abspath(os.path.dirname(__file__)), p)
+posts_path = path_for('posts')
+pages_path = path_for('pages')
+pastes_path = path_for('pastes')
+data_path = path_for('data')
+cache_path = path_for('cache')
 
 make_external = lambda url: urljoin(request.url_root, url)
+
+def get_or_404(cls, path, slug, full=True):
+	try:
+		p = cls.with_slug(path, cache_path, slug, full)
+	except Exception as e:
+		print e
+		abort(404)
+	return p
 
 
 
@@ -30,6 +40,11 @@ def inject_pages():
 	}
 
 
+
+@app.errorhandler(401)
+def error401(error):
+	return render_template('error.html', errcode=401, errname="Unauthorized",
+							errmsg="You're not supposed to be here.")
 
 @app.errorhandler(404)
 def error404(error):
@@ -60,6 +75,27 @@ def blog_post(slug):
 		abort(404)
 	return render_template('blog_post.html', post=post)
 
+@app.route('/p/', methods=['GET', 'POST'])
+def paste_new():
+	if request.method == 'POST':
+		text = request.form.text
+		return (text, 200, {'Content-Type', 'text/plain'})
+	return render_template('paste_new.html')
+
+@app.route('/p/<slug>/')
+def paste(slug):
+	try:
+		paste = Paste.with_slug(pastes_path, cache_path, slug)
+	except Exception as e:
+		print e
+		abort(404)
+	return render_template('paste.html', paste=paste)
+
+@app.route('/p/<slug>/raw/')
+def paste_raw(slug):
+	paste = get_or_404(Paste, pastes_path, slug, False)
+	return (paste.text, 200, {'Content-Type': 'text/plain'})
+
 @app.route('/projects/')
 def projects():
 	with open(os.path.join(data_path, 'projects.json')) as f:
@@ -85,10 +121,13 @@ def blog_feed():
 
 @app.route('/<path:path>/')
 def page(path):
+	if path == 'favicon.ico':
+		abort(404)
+	
 	try:
 		page = Page.with_slug(pages_path, cache_path, path)
 	except Exception as e:
-		print e
+		#print e
 		abort(404)
 	return render_template('page.html', page=page)
 

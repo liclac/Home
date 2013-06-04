@@ -30,6 +30,11 @@ article p {
 	margin-bottom:20px;
 }
 
+.highlight > pre {
+	/* Nonstandard property! */
+	tab-size:4;
+}
+
 
 
 /*
@@ -232,4 +237,12 @@ article footer {
 	.navbar .nav li a {
 		text-align:center;
 	}
+}
+
+/*
+ * Pastes
+ */
+#autoresizing-textarea {
+	overflow: hidden;
+	resize: none;
 }

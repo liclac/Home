@@ -13,10 +13,12 @@
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet" />
 	{#<link href="{{ url_for('static', filename='bootstrap-combined.no-icons.min.css') }}" rel="stylesheet" />
 	<link href="{{ url_for('static', filename='font-awesome.css') }}" rel="stylesheet" />#}
-	{% block css %}<link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" />{% endblock %}
+	<link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" />
+	{% block css_extra %}{% endblock %}
 	<link href="{{ url_for('blog_feed') }}" rel="alternate" title="Recent Changes" type="application/atom+xml" />
 </head>
 <body>
+	{% block fullcontent %}
 	<div class="container">
 		<header id="header" class="page-header row-fluid" role="header">
 			<a href="{{ url_for('blog_feed') }}" class="feed-link pull-right"><i class="icon-rss icon-2x"></i></a>
@@ -43,6 +45,8 @@
 			{% endblock %}
 		</div>
 	</div>
+	{% endblock %}
 	{% include "google_analytics.html" %}
+	{% block js_extra %}{% endblock %}
 </body>
 </html>
