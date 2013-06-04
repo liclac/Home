@@ -1,5 +1,6 @@
 import os
 import json
+import cgi
 from urlparse import urljoin
 from operator import itemgetter
 from flask import Flask, render_template, request, abort, redirect, url_for
@@ -97,8 +98,8 @@ def blog_feed():
 @app.route('/p/', methods=['GET', 'POST'])
 def paste_new():
 	if request.method == 'POST':
-		text = request.form['text'].strip()
-		syntax = request.form['syntax'].strip()
+		text = cgi.escape(request.form['text'].strip())
+		syntax = cgi.escape(request.form['syntax'].strip())
 		
 		if not text:
 			return redirect(url_for('paste_new'))
