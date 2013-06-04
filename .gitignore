@@ -1,6 +1,6 @@
 *.pyc
 ._*
 .DS_Store
-cache/*.json
+cache/*
 content/pastes/*.txt
 

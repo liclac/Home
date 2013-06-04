@@ -14,7 +14,7 @@ timestamp_exp = re.compile(r'\! ([^\r\n]+)\r?\n')
 syntax_exp = re.compile(r'\!s ([^\r\n]+)\r?\n')
 title_exp = re.compile(r'([^\r\n]+)\r?\n[=-]+(\r?\n)*')
 
-USE_CACHE = False
+USE_CACHE = True
 
 def make_path_to(path):
 	dirpath = os.path.dirname(path)
@@ -92,7 +92,7 @@ class Post(object):
 	
 	@classmethod
 	def with_slug(cls, posts_dir, cache_dir, slug, full=True):
-		cachepath = os.path.join(cache_dir, slug + '.json')
+		cachepath = os.path.join(cache_dir, cls.__name__.lower() + 's', slug + '.json')
 		should_cache = USE_CACHE and not slug.startswith('_') and not slug.startswith('.')
 		if should_cache:
 			try:
@@ -110,7 +110,7 @@ class Post(object):
 	
 	@classmethod
 	def list(cls, posts_dir, cache_dir):
-		index_cache_filename = '__%ss.json' % cls.__name__.lower()
+		index_cache_filename = cls.__name__.lower() + 's.json'
 		cachepath = os.path.join(cache_dir, index_cache_filename)
 		if USE_CACHE:
 			try:
