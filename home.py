@@ -30,7 +30,7 @@ make_external = lambda url: urljoin(request.url_root, url)
 
 def get_or_404(cls, slug, full=True):
 	try:
-		p = cls.with_slug(path, path_for_class(cls), slug, full)
+		p = cls.with_slug(path_for_class(cls), cache_path, slug, full)
 	except Exception as e:
 		print e
 		abort(404)
@@ -43,9 +43,7 @@ def get_list(cls):
 
 @app.context_processor
 def inject_pages():
-	return {
-		'pages': get_list(Page)
-	}
+	return { 'pages': get_list(Page) }
 
 
 
@@ -79,6 +77,23 @@ def blog_post(slug):
 	post = get_or_404(Post, slug)
 	return render_template('blog_post.html', post=post)
 
+# http://flask.pocoo.org/snippets/10/
+@app.route('/blog/feed.atom')
+def blog_feed():
+	feed = AtomFeed('MacaroniCode',
+			feed_url=request.url, url=request.url_root)
+	posts = get_list(Post)
+	for post in posts:
+		feed.add(
+			unicode(post.title), unicode(post.html),
+			content_type='html',
+			author='uppfinnarn',
+			url=make_external(url_for('blog_post', slug=post.slug)),
+			updated=post.created,
+			published=post.created
+		)
+	return feed.get_response()
+
 @app.route('/p/', methods=['GET', 'POST'])
 def paste_new():
 	if request.method == 'POST':
@@ -88,7 +103,7 @@ def paste_new():
 		if not text:
 			return redirect(url_for('paste_new'))
 		
-		paste = Paste.create(pastes_path, text, syntax)
+		paste = Paste.create(path_for_class(Paste), text, syntax)
 		return redirect(url_for('paste', slug=paste.slug))
 	
 	return render_template('paste_new.html')
@@ -108,23 +123,6 @@ def projects():
 	with open(os.path.join(data_path, 'projects.json')) as f:
 		projects = json.load(f)
 	return render_template('projects.html', projects=projects)
-
-# http://flask.pocoo.org/snippets/10/
-@app.route('/blog/feed.atom')
-def blog_feed():
-	feed = AtomFeed('MacaroniCode',
-			feed_url=request.url, url=request.url_root)
-	posts = get_list(Post)
-	for post in posts:
-		feed.add(
-			unicode(post.title), unicode(post.html),
-			content_type='html',
-			author='uppfinnarn',
-			url=make_external(url_for('blog_post', slug=post.slug)),
-			updated=post.modified,
-			published=post.created
-		)
-	return feed.get_response()
 
 @app.route('/<path:path>/')
 def page(path):
