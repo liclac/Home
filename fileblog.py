@@ -174,7 +174,7 @@ class Paste(Post):
 		self.text = text
 		if self.syntax:
 			lexer = get_lexer_by_name(self.syntax)
-			formatter = HtmlFormatter()
+			formatter = HtmlFormatter(linenos=False)
 			self.html = highlight(text, lexer, formatter)
 		else:
 			self.html = "<pre>%s</pre>" % text
